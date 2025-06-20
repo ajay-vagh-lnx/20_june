@@ -1549,7 +1549,7 @@ function setFloorPlanContainerSizeOnLoad() {
 
             krpano.set("layer[calendar_popup].align", 'center');
             krpano.set("layer[calendar_popup].y", 75);
-            krpano.set("layer[floorplan_container].y", 80);
+            krpano.set("layer[floorplan_container].y", 60);
             krpano.set("layer[floorplan_container].x", 20);
             krpano.set("layer[floorplan_container].scale", 0.2);
             krpano.set("layer[expand_btn].css", "font-family:Arial; color:#FFFFFF; font-size:50px; font-weight:bold;");
@@ -1559,10 +1559,17 @@ function setFloorPlanContainerSizeOnLoad() {
             krpano.set("layer[trajectory_toggle_switch].align", 'bottomright');
         }
 
-        krpano.set("layer[floorplan_container].width", imageWidth);
-        krpano.set("layer[floorplan_container].height", imageHeight);
-        krpano.set("layer[map].width", imageWidth);
-        krpano.set("layer[map].height", imageHeight);
+        if(imageHeight>imageWidth){
+            krpano.set("layer[floorplan_container].width", 480);
+            krpano.set("layer[floorplan_container].height", 621);
+        }else {
+            krpano.set("layer[floorplan_container].width", 542);
+            krpano.set("layer[floorplan_container].height", 383);
+        }
+
+        krpano.set("layer[map].width", "100%");
+        krpano.set("layer[map].height", "100%");
+
         krpano.set("layer[floorplan_container].visible", 'true');
 
         hideLoader();
@@ -1592,6 +1599,8 @@ window.addEventListener("orientationchange", function() {
 function expandFloorplan() {
     const krpano = document.getElementById("krpanoSWFObject");
     let floorPlanImage = krpano.get("layer[map]") || "";
+    // const imageHeight = floorPlanImage.loaderheight
+    // const imageWidth = floorPlanImage.loaderwidth
     const imageHeight = floorPlanImage.loaderheight
     const imageWidth = floorPlanImage.loaderwidth
 
@@ -1600,7 +1609,7 @@ function expandFloorplan() {
         window.innerWidth <= 950 &&
         window.innerHeight <= 500
     );
-    
+    krpano.set("layer[floorplan_container].y", 23);
     if(isMobileLandscape){
         krpano.set("layer[floorplan_container].x", 0);
         krpano.set("layer[floorplan_container].y", 20);
@@ -1614,6 +1623,7 @@ function expandFloorplan() {
         krpano.set("layer[bottom_bar].visible", 'false');
         krpano.set("layer[floorplan_container].scale", 0.4);
         krpano.set("layer[collapse_btn].css", "font-family:Arial; color:#FFFFFF; font-size:50px; font-weight:bold;");
+        krpano.call('tween(layer[floorplan_container].scale, 0.6, 0.4);');
 
     }else{
         if (imageHeight > imageWidth){
@@ -1641,10 +1651,15 @@ function expandFloorplan() {
     krpano.set("control.mousetype", "none");
     krpano.set("control.touchtype", "none");
     krpano.set("layer[floorplan_container].align", "center");
-    krpano.call(`tween(layer[floorplan_container].height , ${imageHeight}, 0.4)`);
-    krpano.call(`tween(layer[floorplan_container].width , ${imageWidth} , 0.4)`);
-    krpano.set("layer[map].height", imageHeight);
-    krpano.set("layer[map].width", imageWidth);
+    
+
+
+
+
+    // krpano.call(`tween(layer[floorplan_container].height , ${976}, 0.4)`);
+    // krpano.call(`tween(layer[floorplan_container].width , ${689} , 0.4)`);
+    // krpano.set("layer[map].height", 450);
+    // krpano.set("layer[map].width", 340);
     krpano.set("layer[expand_btn].visible", false);
     krpano.set("layer[collapse_btn].visible", true);
 
@@ -1652,7 +1667,7 @@ function expandFloorplan() {
     const floorplanContainerElement = document.getElementById("krpanoSWFObject");
     if (floorplanContainerElement) {
         floorplanContainerElement.addEventListener("wheel", handelZoomFloorplanImagePrecise);
-        floorplanContainerElement.addEventListener("touchstart", handleTouchStart, { passive: false });
+        // floorplanContainerElement.addEventListener("touchstart", handleTouchStart, { passive: false });
         floorplanContainerElement.addEventListener("touchmove", handleTouchMove, { passive: false });
     };
 
@@ -1698,8 +1713,18 @@ function collapseFloorplan() {
         krpano.set("control.touch", "on");
         krpano.set("control.keyboard", "on");
         krpano.set("control.mousetype", "drag");
-        krpano.set("layer[floorplan_container].height" , imageHeight);
-        krpano.set("layer[floorplan_container].width" , imageWidth);
+        
+        if(imageHeight>imageWidth){
+            krpano.set("layer[floorplan_container].width", 480);
+            krpano.set("layer[floorplan_container].height", 621);
+        }else {
+            krpano.set("layer[floorplan_container].width", 542);
+            krpano.set("layer[floorplan_container].height", 383);
+        }
+    
+
+
+        krpano.set("layer[floorplan_container].y", 60);
         krpano.set("layer[floorplan_container].align", "righttop");
         krpano.set("layer[map].height", "100%");
         krpano.set("layer[map].width", "100%");
@@ -1718,6 +1743,14 @@ function collapseFloorplan() {
 }
 
 
+
+// Global variables for touch handling
+let touchStartX, touchStartY, layerStartX, layerStartY;
+let lastTouchDistance = null;
+let lastTouchCenter = null;
+let initialTouchScale = 1;
+let initialTouchX = 0;
+let initialTouchY = 0;
 
 
 
@@ -1773,6 +1806,53 @@ function handelZoomFloorplanImagePrecise(event) {
     krpano.set("layer[map].y", newY);
     // Constrain to bounds
     constrainImagePosition();
+}
+
+function constrainImagePosition() {
+    const krpano = document.getElementById("krpanoSWFObject");
+    const floorplanContainer = krpano.get("layer[floorplan_container]");
+    const mapLayer = krpano.get("layer[map]");
+    
+    if (!floorplanContainer || !mapLayer) return;
+    
+    const scale = parseFloat(mapLayer.scale) || 1;
+    const containerWidth = parseFloat(floorplanContainer.width);
+    const containerHeight = parseFloat(floorplanContainer.height);
+    
+    // Get original image dimensions
+    const originalImageWidth = parseFloat(mapLayer.loaderwidth) || parseFloat(mapLayer.width);
+    const originalImageHeight = parseFloat(mapLayer.loaderheight) || parseFloat(mapLayer.height);
+    
+    // Calculate scaled image dimensions
+    const scaledImageWidth = originalImageWidth * scale;
+    const scaledImageHeight = originalImageHeight * scale;
+    
+    // Get current position
+    let x = parseFloat(mapLayer.x) || 0;
+    let y = parseFloat(mapLayer.y) || 0;
+    
+    // Calculate bounds - image should not go beyond container edges
+    const minX = Math.min(0, containerWidth - scaledImageWidth);
+    const maxX = Math.max(0, containerWidth - scaledImageWidth);
+    const minY = Math.min(0, containerHeight - scaledImageHeight);
+    const maxY = Math.max(0, containerHeight - scaledImageHeight);
+    
+    // Constrain position
+    if (scaledImageWidth > containerWidth) {
+        x = Math.max(minX, Math.min(maxX, x));
+    } else {
+        x = (containerWidth - scaledImageWidth) / 2; // Center if image is smaller than container
+    }
+    
+    if (scaledImageHeight > containerHeight) {
+        y = Math.max(minY, Math.min(maxY, y));
+    } else {
+        y = (containerHeight - scaledImageHeight) / 2; // Center if image is smaller than container
+    }
+    
+    // Apply constrained position
+    krpano.set("layer[map].x", x);
+    krpano.set("layer[map].y", y);
 }
 
 
@@ -1854,6 +1934,253 @@ function animateScale(map, scale, duration) {
     requestAnimationFrame(updateScale);
 }
 
+// function handleTouchStart(event) {
+//     const krpano = document.getElementById("krpanoSWFObject");
+//     const mapLayer = krpano.get("layer[map]");
+
+//     if (event.touches.length === 1) {
+//         // Start drag
+//         touchStartX = event.touches[0].clientX;
+//         touchStartY = event.touches[0].clientY;
+//         layerStartX = mapLayer.x;
+//         layerStartY = mapLayer.y;
+//     } else if (event.touches.length === 2) {
+//         // Start pinch zoom
+//         lastTouchDistance = getDistance(event.touches);
+//         lastTouchCenter = getCenter(event.touches);
+//     }
+// }
+
+function handleTouchStart(event) {
+    const krpano = document.getElementById("krpanoSWFObject");
+    const mapLayer = krpano.get("layer[map]");
+    
+    if (!mapLayer) return;
+
+    if (event.touches.length === 1) {
+        // Start drag
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+        layerStartX = parseFloat(mapLayer.x) || 0;
+        layerStartY = parseFloat(mapLayer.y) || 0;
+    } else if (event.touches.length === 2) {
+        // Start pinch zoom
+        lastTouchDistance = getDistance(event.touches);
+        lastTouchCenter = getCenter(event.touches);
+        initialTouchScale = parseFloat(mapLayer.scale) || 1;
+        initialTouchX = parseFloat(mapLayer.x) || 0;
+        initialTouchY = parseFloat(mapLayer.y) || 0;
+    }
+}
+
+
+// UNDOOO ----------
+
+// function handleTouchMove(event) {
+//     event.preventDefault();
+//     const krpano = document.getElementById("krpanoSWFObject");
+//     const floorplanContainer = krpano.get("layer[floorplan_container]");
+//     const mapLayer = krpano.get("layer[map]");
+//     if (!floorplanContainer || !mapLayer) return;
+
+//     if (event.touches.length === 1) {
+//         // Dragging
+//         const dx = event.touches[0].clientX - touchStartX;
+//         const dy = event.touches[0].clientY - touchStartY;
+
+//         let new_x = layerStartX + dx;
+//         let new_y = layerStartY + dy;
+
+//         // Limit movement within boundaries
+//         let scale = mapLayer.scale;
+//         let containerWidth = floorplanContainer.width;
+//         let containerHeight = floorplanContainer.height;
+//         let imageWidth = mapLayer.width * scale;
+//         let imageHeight = mapLayer.height * scale;
+//         let minX = Math.min(0, containerWidth - imageWidth);
+//         let maxX = 0;
+//         let minY = Math.min(0, containerHeight - imageHeight);
+//         let maxY = 0;
+
+//         new_x = Math.max(minX, Math.min(maxX, new_x));
+//         new_y = Math.max(minY, Math.min(maxY, new_y));
+
+//         krpano.set("layer[map].x", new_x);
+//         krpano.set("layer[map].y", new_y);
+
+//     } else if (event.touches.length === 2) {
+//         // Pinch to zoom
+//         const newDistance = getDistance(event.touches);
+//         const center = getCenter(event.touches);
+//         const scaleFactor = newDistance / lastTouchDistance;
+
+//         let newScale = mapLayer.scale * scaleFactor;
+//         newScale = Math.max(1, Math.min(4, newScale)); // Keep between 1 and 4
+
+//         krpano.set("layer[map].scale", newScale);
+//         lastTouchDistance = newDistance;
+//         lastTouchCenter = center;
+//     }
+// }
+
+function handleTouchMove(event) {
+    event.preventDefault();
+    const krpano = document.getElementById("krpanoSWFObject");
+    const floorplanContainer = krpano.get("layer[floorplan_container]");
+    const mapLayer = krpano.get("layer[map]");
+    
+    if (!floorplanContainer || !mapLayer) return;
+
+    if (event.touches.length === 1) {
+        // Single finger drag
+        const dx = event.touches[0].clientX - touchStartX;
+        const dy = event.touches[0].clientY - touchStartY;
+
+        let newX = layerStartX + dx;
+        let newY = layerStartY + dy;
+
+        // Apply constraints
+        const constrainedPosition = constrainPosition(newX, newY, mapLayer, floorplanContainer);
+        
+        krpano.set("layer[map].x", constrainedPosition.x);
+        krpano.set("layer[map].y", constrainedPosition.y);
+
+    } else if (event.touches.length === 2) {
+        // Two finger pinch zoom
+        const newDistance = getDistance(event.touches);
+        const newCenter = getCenter(event.touches);
+        
+        if (lastTouchDistance && lastTouchCenter) {
+            // Calculate scale change
+            const scaleFactor = newDistance / lastTouchDistance;
+            let newScale = (parseFloat(mapLayer.scale) || 1) * scaleFactor;
+            
+            // Constrain scale
+            const maxScale = 4;
+            const minScale = 1;
+            newScale = Math.max(minScale, Math.min(maxScale, newScale));
+            
+            // Calculate zoom center relative to container
+            const rect = document.getElementById("krpanoSWFObject").getBoundingClientRect();
+            const containerX = parseFloat(floorplanContainer.x) || 0;
+            const containerY = parseFloat(floorplanContainer.y) || 0;
+            const containerWidth = parseFloat(floorplanContainer.width);
+            const containerHeight = parseFloat(floorplanContainer.height);
+            
+            // Adjust center position relative to container
+            let relativeCenterX = newCenter.x - rect.left - containerX;
+            let relativeCenterY = newCenter.y - rect.top - containerY;
+            
+            // Handle center alignment
+            if (floorplanContainer.align === "center") {
+                relativeCenterX = newCenter.x - rect.left - (rect.width - containerWidth) / 2;
+                relativeCenterY = newCenter.y - rect.top - (rect.height - containerHeight) / 2;
+            }
+            
+            // Calculate current position
+            const currentScale = parseFloat(mapLayer.scale) || 1;
+            const currentX = parseFloat(mapLayer.x) || 0;
+            const currentY = parseFloat(mapLayer.y) || 0;
+            
+            // Calculate the point in the image that should stay under the center
+            const imagePointX = (relativeCenterX - currentX) / currentScale;
+            const imagePointY = (relativeCenterY - currentY) / currentScale;
+            
+            // Calculate new position to keep the image point under center
+            const newX = relativeCenterX - imagePointX * newScale;
+            const newY = relativeCenterY - imagePointY * newScale;
+            
+            // Apply new scale and position
+            krpano.set("layer[map].scale", newScale);
+            krpano.set("layer[map].x", newX);
+            krpano.set("layer[map].y", newY);
+            
+            // Constrain to bounds
+            constrainImagePosition();
+        }
+        
+        lastTouchDistance = newDistance;
+        lastTouchCenter = newCenter;
+    }
+}
+
+
+
+// function handleTouchEnd(event) {
+//     if (event.touches.length < 2) {
+//         lastTouchDistance = null;
+//         lastTouchCenter = null;
+//     }
+// }
+
+function handleTouchEnd(event) {
+    if (event.touches.length < 2) {
+        lastTouchDistance = null;
+        lastTouchCenter = null;
+    }
+    if (event.touches.length === 0) {
+        touchStartX = null;
+        touchStartY = null;
+        layerStartX = null;
+        layerStartY = null;
+    }
+}
+
+
+
+// Helper function to get distance between two touches
+function getDistance(touches) {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+// Helper function to get center point between two touches
+function getCenter(touches) {
+    return {
+        x: (touches[0].clientX + touches[1].clientX) / 2,
+        y: (touches[0].clientY + touches[1].clientY) / 2
+    };
+}
+
+// Helper function to constrain position within bounds
+function constrainPosition(x, y, mapLayer, floorplanContainer) {
+    const scale = parseFloat(mapLayer.scale) || 1;
+    const containerWidth = parseFloat(floorplanContainer.width);
+    const containerHeight = parseFloat(floorplanContainer.height);
+    
+    // Get original image dimensions
+    const originalImageWidth = parseFloat(mapLayer.loaderwidth) || parseFloat(mapLayer.width);
+    const originalImageHeight = parseFloat(mapLayer.loaderheight) || parseFloat(mapLayer.height);
+    
+    // Calculate scaled image dimensions
+    const scaledImageWidth = originalImageWidth * scale;
+    const scaledImageHeight = originalImageHeight * scale;
+    
+    // Calculate bounds
+    const minX = Math.min(0, containerWidth - scaledImageWidth);
+    const maxX = Math.max(0, containerWidth - scaledImageWidth);
+    const minY = Math.min(0, containerHeight - scaledImageHeight);
+    const maxY = Math.max(0, containerHeight - scaledImageHeight);
+    
+    // Constrain position
+    let constrainedX = x;
+    let constrainedY = y;
+    
+    if (scaledImageWidth > containerWidth) {
+        constrainedX = Math.max(minX, Math.min(maxX, x));
+    } else {
+        constrainedX = (containerWidth - scaledImageWidth) / 2;
+    }
+    
+    if (scaledImageHeight > containerHeight) {
+        constrainedY = Math.max(minY, Math.min(maxY, y));
+    } else {
+        constrainedY = (containerHeight - scaledImageHeight) / 2;
+    }
+    
+    return { x: constrainedX, y: constrainedY };
+}
 
 function closeCalendar(){
     let krpano = document.getElementById("krpanoSWFObject");
@@ -1861,12 +2188,12 @@ function closeCalendar(){
 }
 
 
-let lastTouchDistance = null;
-let lastTouchCenter = null;
-let touchStartX = 0;
-let touchStartY = 0;
-let layerStartX = 0;
-let layerStartY = 0;
+// let lastTouchDistance = null;
+// let lastTouchCenter = null;
+// let touchStartX = 0;
+// let touchStartY = 0;
+// let layerStartX = 0;
+// let layerStartY = 0;
 
 function getDistance(touches) {
     const dx = touches[0].clientX - touches[1].clientX;
@@ -1881,73 +2208,3 @@ function getCenter(touches) {
     };
 }
 
-function handleTouchStart(event) {
-    const krpano = document.getElementById("krpanoSWFObject");
-    const mapLayer = krpano.get("layer[map]");
-
-    if (event.touches.length === 1) {
-        // Start drag
-        touchStartX = event.touches[0].clientX;
-        touchStartY = event.touches[0].clientY;
-        layerStartX = mapLayer.x;
-        layerStartY = mapLayer.y;
-    } else if (event.touches.length === 2) {
-        // Start pinch zoom
-        lastTouchDistance = getDistance(event.touches);
-        lastTouchCenter = getCenter(event.touches);
-    }
-}
-
-function handleTouchMove(event) {
-    event.preventDefault();
-    const krpano = document.getElementById("krpanoSWFObject");
-    const floorplanContainer = krpano.get("layer[floorplan_container]");
-    const mapLayer = krpano.get("layer[map]");
-    if (!floorplanContainer || !mapLayer) return;
-
-    if (event.touches.length === 1) {
-        // Dragging
-        const dx = event.touches[0].clientX - touchStartX;
-        const dy = event.touches[0].clientY - touchStartY;
-
-        let new_x = layerStartX + dx;
-        let new_y = layerStartY + dy;
-
-        // Limit movement within boundaries
-        let scale = mapLayer.scale;
-        let containerWidth = floorplanContainer.width;
-        let containerHeight = floorplanContainer.height;
-        let imageWidth = mapLayer.width * scale;
-        let imageHeight = mapLayer.height * scale;
-        let minX = Math.min(0, containerWidth - imageWidth);
-        let maxX = 0;
-        let minY = Math.min(0, containerHeight - imageHeight);
-        let maxY = 0;
-
-        new_x = Math.max(minX, Math.min(maxX, new_x));
-        new_y = Math.max(minY, Math.min(maxY, new_y));
-
-        krpano.set("layer[map].x", new_x);
-        krpano.set("layer[map].y", new_y);
-
-    } else if (event.touches.length === 2) {
-        // Pinch to zoom
-        const newDistance = getDistance(event.touches);
-        const center = getCenter(event.touches);
-        const scaleFactor = newDistance / lastTouchDistance;
-
-        let newScale = mapLayer.scale * scaleFactor;
-        newScale = Math.max(1, Math.min(4, newScale)); // Keep between 1 and 4
-
-        krpano.set("layer[map].scale", newScale);
-        lastTouchDistance = newDistance;
-        lastTouchCenter = center;
-    }
-}
-
-function handleTouchEnd(event) {
-    if (event.touches.length < 2) {
-        lastTouchDistance = null;
-        lastTouchCenter = null;
-    }
-}
