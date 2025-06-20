@@ -1,0 +1,4 @@
+# Ignore everything in vtour/ except the two folders
+vtour/*
+!vtour/css/
+!vtour/slam-non-modular/
