@@ -1,0 +1,755 @@
+<krpano version="1.22" title="Virtual Tour">
+
+	<action name="mapspot_loadscene">if(layer[map].scale GT 0.5, set(layer[map].enabled, false); tween(layer[map].alpha, 0.0, 0.25, default, loadscene(%1, null, MERGE, BLEND(1)); set(layer[map].onclick, openmap(); ); layer[map].changeorigin(righttop,righttop); set(layer[map].x, 0); set(layer[map].y, 0); set(layer[map].scale, 0.5); set(events[sceneload].onloadcomplete, delayedcall(1, tween(layer[map].alpha, 1.0, 0.5, default, set(layer[map].enabled, true); ); ); ); );, loadscene(%1, null, MERGE, BLEND(1)); );</action><action name="startup">loadscene(scene_1, null, MERGE);</action><layer name="map" keep="true" handcursor="false" capture="false" align="righttop" scale="0.5" scalechildren="true" onclick="openmap();" x="10" y="10" /><action name="openmap">set(layer[map].onclick, closemap(); ); layer[map].changeorigin(center,center); set(bigscale,1); if(layer[map].imagewidth GT stagewidth, div(bigscale, stagewidth, layer[map].imagewidth); ); tween(layer[map].x, 0); tween(layer[map].y, 0); tween(layer[map].scale, get(bigscale));</action><action name="closemap">set(layer[map].onclick, openmap(); ); layer[map].changeorigin(righttop,righttop); tween(layer[map].x, 0); tween(layer[map].y, 0); tween(layer[map].scale, 0.5);</action><layer name="radar" keep="true" url="%SWFPATH%/plugins/radar.js" align="center" zorder="1" scale_mobile="1.5" fillalpha="0.6" fillcolor="0x80e5ff" linewidth="1.0" linecolor="0x80e5ff" linealpha="0.5" editmode="true" /><layer name="activespot" keep="true" align="lefttop" zorder="2" scale_mobile="2" scale="0.25" />
+
+	
+	<skin_settings maps="false" maps_type="google" maps_bing_api_key="" maps_google_api_key="" maps_zoombuttons="false" maps_loadonfirstuse="true" gyro="true" gyro_keeplookingdirection="false" webvr="true" webvr_keeplookingdirection="true" webvr_prev_next_hotspots="true" autotour="false" littleplanetintro="false" followmousecontrol="false" title="true" thumbs="true" thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160" thumbs_opened="false" thumbs_text="false" thumbs_dragging="true" thumbs_onhoverscrolling="false" thumbs_scrollbuttons="false" thumbs_scrollindicator="false" thumbs_loop="false" tooltips_buttons="false" tooltips_thumbs="false" tooltips_hotspots="false" tooltips_mapspots="false" deeplinking="false" loadscene_flags="MERGE" loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)" loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)" loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)" loadingtext="" layout_width="100%" layout_maxwidth="814" controlbar_width="-24" controlbar_height="40" controlbar_offset="20" controlbar_offset_closed="-40" controlbar_overlap.no-fractionalscaling="10" controlbar_overlap.fractionalscaling="0" design_skin_images="vtourskin.png" design_bgcolor="0x2D3E50" design_bgalpha="0.8" design_bgborder="0" design_bgroundedge="1" design_bgshadow="0 4 10 0x000000 0.3" design_thumbborder_bgborder="3 0xFFFFFF 1.0" design_thumbborder_padding="2" design_thumbborder_bgroundedge="0" design_text_css="color:#FFFFFF; font-family:Arial;" design_text_shadow="1" />
+
+	<action name="startup">loadscene(scene_1, null, MERGE);</action>
+
+	<include url="skin/vtourskin.xml" />
+	<include url="plugins/garrows/garrows_settings.xml" />
+	<include url="plugins/garrows/garrows.xml" />
+	
+	<plugin api="threejs" keep="true"
+        url="%VIEWER%/plugins/threejs_krpanoplugin.js"
+        useembeddedthreejs="true"
+        integratedrendering="true"
+        es6modules="false"
+        adjustlightfalloff="true"
+        cache="true"
+        onready=""
+        />
+
+
+	
+	<scene name="scene_1" title="panorama_0.000000" onstart="updateradar();" thumburl="panos/panorama_0_000000.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="7.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_0_000000.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_0_000000.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot1); set(layer[radar].parent, spot1); set(layer[radar].heading, 144.06);</action></scene>
+
+	<scene name="scene_2" title="panorama_0.333330" onstart="updateradar();" thumburl="panos/panorama_0_333330.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_0_333330.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_0_333330.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot2); set(layer[radar].parent, spot2); set(layer[radar].heading, -147.57);</action><hotspot name="prev_hotspot_1729510754_35146" style="skin_hotspotstyle" ath="0.0" atv="0.0" alpha="0" linkedscene="scene_1" /><hotspot name="next_hotspot_1729510754_35146" style="skin_hotspotstyle" ath="-0.049177" atv="-0.001762" alpha="0" linkedscene="scene_3" /><hotspot name="hotspot_2_5" style="skin_hotspotstyle" ath="-158.8081167180553" atv="77.30519901119446" alpha="0" linkedscene="scene_3" /><hotspot name="hotspot_2_6" style="skin_hotspotstyle" ath="-168.6251201565327" atv="77.04690265127955" alpha="0" linkedscene="scene_3" /><hotspot name="hotspot_2_7" style="skin_hotspotstyle" ath="-173.79559626970268" atv="77.00337754445215" alpha="0" linkedscene="scene_3" /><hotspot name="hotspot_2_8" style="skin_hotspotstyle" ath="-175.19163172559718" atv="76.81120557832823" alpha="0" linkedscene="scene_3" /></scene>
+
+	<scene name="scene_3" title="panorama_0.666660" onstart="updateradar();" thumburl="panos/panorama_0_666660.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_0_666660.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_0_666660.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot3); set(layer[radar].parent, spot3); set(layer[radar].heading, -154.05);</action><hotspot name="prev_hotspot_1729510754_68479" style="skin_hotspotstyle" ath="-0.049177" atv="-0.001762" alpha="0" linkedscene="scene_2" /><hotspot name="next_hotspot_1729510754_68479" style="skin_hotspotstyle" ath="-0.121518" atv="-0.004914" alpha="0" linkedscene="scene_4" /><hotspot name="hotspot_3_9" style="skin_hotspotstyle" ath="-170.84101085153267" atv="76.662766692587" alpha="0" linkedscene="scene_4" /><hotspot name="hotspot_3_10" style="skin_hotspotstyle" ath="-168.22676229067832" atv="76.92014713186757" alpha="0" linkedscene="scene_4" /><hotspot name="hotspot_3_11" style="skin_hotspotstyle" ath="-167.4679913099044" atv="77.617189085577" alpha="0" linkedscene="scene_4" /><hotspot name="hotspot_3_12" style="skin_hotspotstyle" ath="-169.19508605473433" atv="78.22211305385676" alpha="0" linkedscene="scene_4" /></scene>
+
+	<style name="mapspot" keep="true" parent="map" align="lefttop" edge="center" scale.mobile="2" scale="1.0" /><scene name="scene_4" title="panorama_1.000000" onstart="updateradar();" thumburl="panos/panorama_1_000000.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_1_000000.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_1_000000.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot4); set(layer[radar].parent, spot4); set(layer[radar].heading, 177.09);</action><hotspot name="prev_hotspot_1729510755_01813" style="skin_hotspotstyle" ath="-0.121518" atv="-0.004914" alpha="0" linkedscene="scene_3" /><hotspot name="next_hotspot_1729510755_01813" style="skin_hotspotstyle" ath="-0.225263" atv="-0.007579" alpha="0" linkedscene="scene_5" /><hotspot name="hotspot_4_13" style="skin_hotspotstyle" ath="-170.34647852943712" atv="79.05713544987063" alpha="0" linkedscene="scene_5" /><hotspot name="hotspot_4_14" style="skin_hotspotstyle" ath="-170.70302943355628" atv="79.68632230117841" alpha="0" linkedscene="scene_5" /><hotspot name="hotspot_4_15" style="skin_hotspotstyle" ath="-170.7064033480213" atv="79.88625672442029" alpha="0" linkedscene="scene_5" /><hotspot name="hotspot_4_16" style="skin_hotspotstyle" ath="-166.62617421613297" atv="79.62935523765215" alpha="0" linkedscene="scene_5" /></scene>
+
+	<scene name="scene_5" title="panorama_1.333330" onstart="updateradar();" thumburl="panos/panorama_1_333330.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_1_333330.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_1_333330.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot5); set(layer[radar].parent, spot5); set(layer[radar].heading, 159.26);</action><hotspot name="prev_hotspot_1729510755_35146" style="skin_hotspotstyle" ath="-0.225263" atv="-0.007579" alpha="0" linkedscene="scene_4" /><hotspot name="next_hotspot_1729510755_35146" style="skin_hotspotstyle" ath="-0.36171" atv="-0.010142" alpha="0" linkedscene="scene_6" /><hotspot name="hotspot_5_17" style="skin_hotspotstyle" ath="-163.45749130870558" atv="79.2131023740824" alpha="0" linkedscene="scene_6" /><hotspot name="hotspot_5_18" style="skin_hotspotstyle" ath="-163.46511959309746" atv="78.72357400995415" alpha="0" linkedscene="scene_6" /><hotspot name="hotspot_5_19" style="skin_hotspotstyle" ath="-166.04799031493616" atv="78.41928777299393" alpha="0" linkedscene="scene_6" /><hotspot name="hotspot_5_20" style="skin_hotspotstyle" ath="-168.73360528822215" atv="77.90010239066312" alpha="0" linkedscene="scene_6" /></scene>
+
+	<scene name="scene_6" title="panorama_1.666660" onstart="updateradar();" thumburl="panos/panorama_1_666660.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_1_666660.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_1_666660.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot6); set(layer[radar].parent, spot6); set(layer[radar].heading, 161.74);</action><hotspot name="prev_hotspot_1729510755_68479" style="skin_hotspotstyle" ath="-0.36171" atv="-0.010142" alpha="0" linkedscene="scene_5" /><hotspot name="next_hotspot_1729510755_68479" style="skin_hotspotstyle" ath="-0.512467" atv="-0.013911" alpha="0" linkedscene="scene_7" /><hotspot name="hotspot_6_21" style="skin_hotspotstyle" ath="-171.4845275205782" atv="77.3673136470818" alpha="0" linkedscene="scene_7" /><hotspot name="hotspot_6_22" style="skin_hotspotstyle" ath="-171.6084684636279" atv="76.46968527072237" alpha="0" linkedscene="scene_7" /><hotspot name="hotspot_6_23" style="skin_hotspotstyle" ath="-170.92465408295877" atv="75.77285833999326" alpha="0" linkedscene="scene_7" /><hotspot name="hotspot_6_24" style="skin_hotspotstyle" ath="-170.2377073426718" atv="75.37989432093794" alpha="0" linkedscene="scene_7" /></scene>
+
+	<scene name="scene_7" title="panorama_10.333320" onstart="updateradar();" thumburl="panos/panorama_10_333320.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_10_333320.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_10_333320.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot7); set(layer[radar].parent, spot7); set(layer[radar].heading, 177.61);</action><hotspot name="prev_hotspot_1729510756_01813" style="skin_hotspotstyle" ath="-0.512467" atv="-0.013911" alpha="0" linkedscene="scene_6" /><hotspot name="next_hotspot_1729510756_01813" style="skin_hotspotstyle" ath="-0.684896" atv="-0.019648" alpha="0" linkedscene="scene_8" /><hotspot name="hotspot_7_25" style="skin_hotspotstyle" ath="-170.36514935128758" atv="74.95917733192863" alpha="0" linkedscene="scene_8" /><hotspot name="hotspot_7_26" style="skin_hotspotstyle" ath="-171.41852647285393" atv="74.57468203154447" alpha="0" linkedscene="scene_8" /><hotspot name="hotspot_7_27" style="skin_hotspotstyle" ath="-172.49344225148502" atv="74.32480332779396" alpha="0" linkedscene="scene_8" /><hotspot name="hotspot_7_28" style="skin_hotspotstyle" ath="-172.70626991293759" atv="73.99434906358145" alpha="0" linkedscene="scene_8" /></scene>
+
+	<scene name="scene_8" title="panorama_10.666650" onstart="updateradar();" thumburl="panos/panorama_10_666650.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_10_666650.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_10_666650.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot8); set(layer[radar].parent, spot8); set(layer[radar].heading, -143.64);</action><hotspot name="prev_hotspot_1729510756_35146" style="skin_hotspotstyle" ath="-0.684896" atv="-0.019648" alpha="0" linkedscene="scene_7" /><hotspot name="next_hotspot_1729510756_35146" style="skin_hotspotstyle" ath="-0.887158" atv="-0.033377" alpha="0" linkedscene="scene_9" /><hotspot name="hotspot_8_29" style="skin_hotspotstyle" ath="-172.6114405603376" atv="73.46015982535393" alpha="0" linkedscene="scene_9" /><hotspot name="hotspot_8_30" style="skin_hotspotstyle" ath="-171.61852987791974" atv="72.85809353145625" alpha="0" linkedscene="scene_9" /><hotspot name="hotspot_8_31" style="skin_hotspotstyle" ath="-171.34717627492108" atv="72.11345627364179" alpha="0" linkedscene="scene_9" /><hotspot name="hotspot_8_32" style="skin_hotspotstyle" ath="-171.30568837767822" atv="71.28884716258241" alpha="0" linkedscene="scene_9" /></scene>
+
+	<scene name="scene_9" title="panorama_10.999990" onstart="updateradar();" thumburl="panos/panorama_10_999990.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_10_999990.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_10_999990.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot9); set(layer[radar].parent, spot9); set(layer[radar].heading, -142.23);</action><hotspot name="prev_hotspot_1729510756_68479" style="skin_hotspotstyle" ath="-0.887158" atv="-0.033377" alpha="0" linkedscene="scene_8" /><hotspot name="next_hotspot_1729510756_68479" style="skin_hotspotstyle" ath="-1.115175" atv="-0.05517" alpha="0" linkedscene="scene_10" /><hotspot name="hotspot_9_33" style="skin_hotspotstyle" ath="-172.11293820132386" atv="70.34167042565026" alpha="0" linkedscene="scene_10" /><hotspot name="hotspot_9_34" style="skin_hotspotstyle" ath="-172.8385249380273" atv="69.58580473813618" alpha="0" linkedscene="scene_10" /><hotspot name="hotspot_9_35" style="skin_hotspotstyle" ath="-173.30147151319107" atv="68.78914365231921" alpha="0" linkedscene="scene_10" /><hotspot name="hotspot_9_36" style="skin_hotspotstyle" ath="-173.69980400576856" atv="67.82907784286802" alpha="0" linkedscene="scene_10" /></scene>
+
+	<scene name="scene_10" title="panorama_11.333320" onstart="updateradar();" thumburl="panos/panorama_11_333320.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_11_333320.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_11_333320.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot10); set(layer[radar].parent, spot10); set(layer[radar].heading, -149.48);</action><hotspot name="prev_hotspot_1729510757_01813" style="skin_hotspotstyle" ath="-1.115175" atv="-0.05517" alpha="0" linkedscene="scene_9" /><hotspot name="next_hotspot_1729510757_01813" style="skin_hotspotstyle" ath="-1.377874" atv="-0.154498" alpha="0" linkedscene="scene_11" /><hotspot name="hotspot_10_37" style="skin_hotspotstyle" ath="-173.3258310647762" atv="67.04216642106591" alpha="0" linkedscene="scene_11" /><hotspot name="hotspot_10_38" style="skin_hotspotstyle" ath="-173.2310927615362" atv="66.33193450162412" alpha="0" linkedscene="scene_11" /><hotspot name="hotspot_10_39" style="skin_hotspotstyle" ath="-173.57738701556656" atv="65.63836158521434" alpha="0" linkedscene="scene_11" /><hotspot name="hotspot_10_40" style="skin_hotspotstyle" ath="-174.0528962357614" atv="65.03787808749917" alpha="0" linkedscene="scene_11" /></scene>
+
+	<scene name="scene_11" title="panorama_11.666650" onstart="updateradar();" thumburl="panos/panorama_11_666650.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_11_666650.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_11_666650.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot11); set(layer[radar].parent, spot11); set(layer[radar].heading, 156.97);</action><hotspot name="prev_hotspot_1729510757_35146" style="skin_hotspotstyle" ath="-1.377874" atv="-0.154498" alpha="0" linkedscene="scene_10" /><hotspot name="next_hotspot_1729510757_35146" style="skin_hotspotstyle" ath="-1.468339" atv="-2.795808" alpha="0" linkedscene="scene_12" /><hotspot name="hotspot_11_41" style="skin_hotspotstyle" ath="-174.5997096955712" atv="64.33104618861141" alpha="0" linkedscene="scene_12" /><hotspot name="hotspot_11_42" style="skin_hotspotstyle" ath="-174.9486262398733" atv="63.51712652316386" alpha="0" linkedscene="scene_12" /><hotspot name="hotspot_11_43" style="skin_hotspotstyle" ath="-174.9593525028829" atv="62.58009652326021" alpha="0" linkedscene="scene_12" /><hotspot name="hotspot_11_44" style="skin_hotspotstyle" ath="-174.73636047526006" atv="61.644818460501064" alpha="0" linkedscene="scene_12" /></scene>
+
+	<scene name="scene_12" title="panorama_11.999990" onstart="updateradar();" thumburl="panos/panorama_11_999990.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_11_999990.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_11_999990.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot12); set(layer[radar].parent, spot12); set(layer[radar].heading, 138.48);</action><hotspot name="prev_hotspot_1729510757_68479" style="skin_hotspotstyle" ath="-1.468339" atv="-2.795808" alpha="0" linkedscene="scene_11" /><hotspot name="next_hotspot_1729510757_68479" style="skin_hotspotstyle" ath="-1.202297" atv="-3.031282" alpha="0" linkedscene="scene_13" /><hotspot name="hotspot_12_45" style="skin_hotspotstyle" ath="-174.70336037892986" atv="60.72556298359127" alpha="0" linkedscene="scene_13" /><hotspot name="hotspot_12_46" style="skin_hotspotstyle" ath="-174.64415964085467" atv="59.793564292031526" alpha="0" linkedscene="scene_13" /><hotspot name="hotspot_12_47" style="skin_hotspotstyle" ath="-175.09876551507526" atv="58.70846152669233" alpha="0" linkedscene="scene_13" /><hotspot name="hotspot_12_48" style="skin_hotspotstyle" ath="-175.63871747891673" atv="57.660867302258204" alpha="0" linkedscene="scene_13" /></scene>
+
+	<scene name="scene_13" title="panorama_12.333320" onstart="updateradar();" thumburl="panos/panorama_12_333320.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_12_333320.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_12_333320.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot13); set(layer[radar].parent, spot13); set(layer[radar].heading, 156.17);</action><hotspot name="prev_hotspot_1729510758_01812" style="skin_hotspotstyle" ath="-1.202297" atv="-3.031282" alpha="0" linkedscene="scene_12" /><hotspot name="next_hotspot_1729510758_01812" style="skin_hotspotstyle" ath="-0.997055" atv="-3.055554" alpha="0" linkedscene="scene_14" /><hotspot name="hotspot_13_49" style="skin_hotspotstyle" ath="-175.8884555804278" atv="56.51242896597486" alpha="0" linkedscene="scene_14" /><hotspot name="hotspot_13_50" style="skin_hotspotstyle" ath="-175.74287205574356" atv="55.28920996126136" alpha="0" linkedscene="scene_14" /><hotspot name="hotspot_13_51" style="skin_hotspotstyle" ath="-175.67606979974133" atv="54.16023599467852" alpha="0" linkedscene="scene_14" /><hotspot name="hotspot_13_52" style="skin_hotspotstyle" ath="-175.70964649542626" atv="53.07225910174777" alpha="0" linkedscene="scene_14" /></scene>
+
+	<scene name="scene_14" title="panorama_12.666650" onstart="updateradar();" thumburl="panos/panorama_12_666650.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_12_666650.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_12_666650.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot14); set(layer[radar].parent, spot14); set(layer[radar].heading, -170.76);</action><hotspot name="prev_hotspot_1729510758_35146" style="skin_hotspotstyle" ath="-0.997055" atv="-3.055554" alpha="0" linkedscene="scene_13" /><hotspot name="next_hotspot_1729510758_35146" style="skin_hotspotstyle" ath="-0.880401" atv="-3.069861" alpha="0" linkedscene="scene_15" /><hotspot name="hotspot_14_53" style="skin_hotspotstyle" ath="-175.63458030660007" atv="52.184085783896045" alpha="0" linkedscene="scene_15" /><hotspot name="hotspot_14_54" style="skin_hotspotstyle" ath="-175.85320972910367" atv="51.061808658337775" alpha="0" linkedscene="scene_15" /><hotspot name="hotspot_14_55" style="skin_hotspotstyle" ath="-175.82990617595522" atv="50.05974941595221" alpha="0" linkedscene="scene_15" /><hotspot name="hotspot_14_56" style="skin_hotspotstyle" ath="-176.05017998715934" atv="48.999340288454256" alpha="0" linkedscene="scene_15" /></scene>
+
+	<scene name="scene_15" title="panorama_12.999990" onstart="updateradar();" thumburl="panos/panorama_12_999990.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_12_999990.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_12_999990.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot15); set(layer[radar].parent, spot15); set(layer[radar].heading, -132.78);</action><hotspot name="prev_hotspot_1729510758_68479" style="skin_hotspotstyle" ath="-0.880401" atv="-3.069861" alpha="0" linkedscene="scene_14" /><hotspot name="next_hotspot_1729510758_68479" style="skin_hotspotstyle" ath="-0.833199" atv="-3.076924" alpha="0" linkedscene="scene_16" /><hotspot name="hotspot_15_57" style="skin_hotspotstyle" ath="-176.1798697181577" atv="47.901399305605196" alpha="0" linkedscene="scene_16" /><hotspot name="hotspot_15_58" style="skin_hotspotstyle" ath="-176.19301552223695" atv="46.754154343761414" alpha="0" linkedscene="scene_16" /><hotspot name="hotspot_15_59" style="skin_hotspotstyle" ath="-176.13054746011414" atv="45.64101376799725" alpha="0" linkedscene="scene_16" /><hotspot name="hotspot_15_60" style="skin_hotspotstyle" ath="-176.09046500357314" atv="44.491726392650136" alpha="0" linkedscene="scene_16" /></scene>
+
+	<scene name="scene_16" title="panorama_13.333320" onstart="updateradar();" thumburl="panos/panorama_13_333320.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_13_333320.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_13_333320.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot16); set(layer[radar].parent, spot16); set(layer[radar].heading, -137.51);</action><hotspot name="prev_hotspot_1729510759_01812" style="skin_hotspotstyle" ath="-0.833199" atv="-3.076924" alpha="0" linkedscene="scene_15" /><hotspot name="next_hotspot_1729510759_01812" style="skin_hotspotstyle" ath="-0.846672" atv="-3.076871" alpha="0" linkedscene="scene_17" /><hotspot name="hotspot_16_61" style="skin_hotspotstyle" ath="-176.140365324837" atv="43.304650587216635" alpha="0" linkedscene="scene_17" /><hotspot name="hotspot_16_62" style="skin_hotspotstyle" ath="-176.30827899889678" atv="42.22812825883558" alpha="0" linkedscene="scene_17" /><hotspot name="hotspot_16_63" style="skin_hotspotstyle" ath="-176.57240683702696" atv="41.2375372104594" alpha="0" linkedscene="scene_17" /><hotspot name="hotspot_16_64" style="skin_hotspotstyle" ath="-176.81375300734473" atv="40.24238454631714" alpha="0" linkedscene="scene_17" /></scene>
+
+	<scene name="scene_17" title="panorama_13.666650" onstart="updateradar();" thumburl="panos/panorama_13_666650.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_13_666650.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_13_666650.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot17); set(layer[radar].parent, spot17); set(layer[radar].heading, -163.53);</action><hotspot name="prev_hotspot_1729510759_35146" style="skin_hotspotstyle" ath="-0.846672" atv="-3.076871" alpha="0" linkedscene="scene_16" /><hotspot name="next_hotspot_1729510759_35146" style="skin_hotspotstyle" ath="-0.924915" atv="-3.053693" alpha="0" linkedscene="scene_18" /><hotspot name="hotspot_17_65" style="skin_hotspotstyle" ath="-176.75286945837178" atv="39.323668312181184" alpha="0" linkedscene="scene_18" /><hotspot name="hotspot_17_66" style="skin_hotspotstyle" ath="-176.5351891667714" atv="38.39642791889719" alpha="0" linkedscene="scene_18" /><hotspot name="hotspot_17_67" style="skin_hotspotstyle" ath="-176.4689408551887" atv="37.444479823092" alpha="0" linkedscene="scene_18" /><hotspot name="hotspot_17_68" style="skin_hotspotstyle" ath="-176.4739336140904" atv="36.3110459808147" alpha="0" linkedscene="scene_18" /></scene>
+
+	<scene name="scene_18" title="panorama_13.999980" onstart="updateradar();" thumburl="panos/panorama_13_999980.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_13_999980.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_13_999980.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot18); set(layer[radar].parent, spot18); set(layer[radar].heading, 163.69);</action><hotspot name="prev_hotspot_1729510759_68479" style="skin_hotspotstyle" ath="-0.924915" atv="-3.053693" alpha="0" linkedscene="scene_17" /><hotspot name="next_hotspot_1729510759_68479" style="skin_hotspotstyle" ath="-1.072866" atv="-3.027764" alpha="0" linkedscene="scene_19" /><hotspot name="hotspot_18_69" style="skin_hotspotstyle" ath="-176.6399233915589" atv="35.13419219930372" alpha="0" linkedscene="scene_19" /><hotspot name="hotspot_18_70" style="skin_hotspotstyle" ath="-176.87780392304776" atv="34.0123779622449" alpha="0" linkedscene="scene_19" /><hotspot name="hotspot_18_71" style="skin_hotspotstyle" ath="-177.04586472803362" atv="32.998783447888975" alpha="0" linkedscene="scene_19" /><hotspot name="hotspot_18_72" style="skin_hotspotstyle" ath="-177.17198627174758" atv="31.831436051531412" alpha="0" linkedscene="scene_19" /></scene>
+
+	<scene name="scene_19" title="panorama_14.333320" onstart="updateradar();" thumburl="panos/panorama_14_333320.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_14_333320.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_14_333320.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot19); set(layer[radar].parent, spot19); set(layer[radar].heading, 167.78);</action><hotspot name="prev_hotspot_1729510760_01812" style="skin_hotspotstyle" ath="-1.072866" atv="-3.027764" alpha="0" linkedscene="scene_18" /><hotspot name="next_hotspot_1729510760_01812" style="skin_hotspotstyle" ath="-1.231036" atv="-2.989131" alpha="0" linkedscene="scene_20" /><hotspot name="hotspot_19_73" style="skin_hotspotstyle" ath="-177.08652797155534" atv="30.813537798548584" alpha="0" linkedscene="scene_20" /><hotspot name="hotspot_19_74" style="skin_hotspotstyle" ath="-176.9019441562985" atv="29.994502707389017" alpha="0" linkedscene="scene_20" /><hotspot name="hotspot_19_75" style="skin_hotspotstyle" ath="-176.85578201619256" atv="29.241981563220175" alpha="0" linkedscene="scene_20" /><hotspot name="hotspot_19_76" style="skin_hotspotstyle" ath="-176.86327291307856" atv="28.55448087201904" alpha="0" linkedscene="scene_20" /></scene>
+
+	<scene name="scene_20" title="panorama_14.666650" onstart="updateradar();" thumburl="panos/panorama_14_666650.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_14_666650.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_14_666650.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot20); set(layer[radar].parent, spot20); set(layer[radar].heading, 164.00);</action><hotspot name="prev_hotspot_1729510760_35146" style="skin_hotspotstyle" ath="-1.231036" atv="-2.989131" alpha="0" linkedscene="scene_19" /><hotspot name="next_hotspot_1729510760_35146" style="skin_hotspotstyle" ath="-1.348008" atv="-2.921332" alpha="0" linkedscene="scene_21" /><hotspot name="hotspot_20_77" style="skin_hotspotstyle" ath="-177.1395153650323" atv="27.68652527758589" alpha="0" linkedscene="scene_21" /><hotspot name="hotspot_20_78" style="skin_hotspotstyle" ath="-177.23045502585876" atv="26.69745911819723" alpha="0" linkedscene="scene_21" /><hotspot name="hotspot_20_79" style="skin_hotspotstyle" ath="-177.42571359694173" atv="26.00427580027682" alpha="0" linkedscene="scene_21" /><hotspot name="hotspot_20_80" style="skin_hotspotstyle" ath="-177.41808910705174" atv="25.04892703033727" alpha="0" linkedscene="scene_21" /></scene>
+
+	<scene name="scene_21" title="panorama_14.999980" onstart="updateradar();" thumburl="panos/panorama_14_999980.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_14_999980.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_14_999980.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot21); set(layer[radar].parent, spot21); set(layer[radar].heading, -172.58);</action><hotspot name="prev_hotspot_1729510760_68479" style="skin_hotspotstyle" ath="-1.348008" atv="-2.921332" alpha="0" linkedscene="scene_20" /><hotspot name="next_hotspot_1729510760_68479" style="skin_hotspotstyle" ath="-1.380532" atv="-2.901501" alpha="0" linkedscene="scene_22" /><hotspot name="hotspot_21_81" style="skin_hotspotstyle" ath="-177.3300188526421" atv="24.34734755835608" alpha="0" linkedscene="scene_22" /><hotspot name="hotspot_21_82" style="skin_hotspotstyle" ath="-177.41396476290154" atv="23.823936198502242" alpha="0" linkedscene="scene_22" /><hotspot name="hotspot_21_83" style="skin_hotspotstyle" ath="-177.40819413889596" atv="23.174179290049413" alpha="0" linkedscene="scene_22" /><hotspot name="hotspot_21_84" style="skin_hotspotstyle" ath="-177.34595246607208" atv="22.65904876056255" alpha="0" linkedscene="scene_22" /></scene>
+
+	<scene name="scene_22" title="panorama_15.333320" onstart="updateradar();" thumburl="panos/panorama_15_333320.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_15_333320.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_15_333320.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot22); set(layer[radar].parent, spot22); set(layer[radar].heading, -164.14);</action><hotspot name="prev_hotspot_1729510761_01812" style="skin_hotspotstyle" ath="-1.380532" atv="-2.901501" alpha="0" linkedscene="scene_21" /><hotspot name="next_hotspot_1729510761_01812" style="skin_hotspotstyle" ath="-1.312723" atv="-2.972069" alpha="0" linkedscene="scene_23" /><hotspot name="hotspot_22_85" style="skin_hotspotstyle" ath="-177.49951263563327" atv="22.146622713521438" alpha="0" linkedscene="scene_23" /><hotspot name="hotspot_22_86" style="skin_hotspotstyle" ath="-177.60847604785826" atv="21.79174005090336" alpha="0" linkedscene="scene_23" /><hotspot name="hotspot_22_87" style="skin_hotspotstyle" ath="-177.70465904737148" atv="21.33122031812629" alpha="0" linkedscene="scene_23" /><hotspot name="hotspot_22_88" style="skin_hotspotstyle" ath="-177.66266910823998" atv="20.903196799911708" alpha="0" linkedscene="scene_23" /></scene>
+
+	<scene name="scene_23" title="panorama_15.666650" onstart="updateradar();" thumburl="panos/panorama_15_666650.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_15_666650.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_15_666650.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot23); set(layer[radar].parent, spot23); set(layer[radar].heading, -160.76);</action><hotspot name="prev_hotspot_1729510761_35145" style="skin_hotspotstyle" ath="-1.312723" atv="-2.972069" alpha="0" linkedscene="scene_22" /><hotspot name="next_hotspot_1729510761_35145" style="skin_hotspotstyle" ath="-1.146416" atv="-3.044949" alpha="0" linkedscene="scene_24" /><hotspot name="hotspot_23_89" style="skin_hotspotstyle" ath="-177.4638625069719" atv="20.516847883955787" alpha="0" linkedscene="scene_24" /><hotspot name="hotspot_23_90" style="skin_hotspotstyle" ath="-177.40041139147166" atv="20.174305344337263" alpha="0" linkedscene="scene_24" /><hotspot name="hotspot_23_91" style="skin_hotspotstyle" ath="-177.4046462946869" atv="19.767701831433484" alpha="0" linkedscene="scene_24" /><hotspot name="hotspot_23_92" style="skin_hotspotstyle" ath="-177.44973096208514" atv="19.173822213264145" alpha="0" linkedscene="scene_24" /></scene>
+
+	<scene name="scene_24" title="panorama_15.999980" onstart="updateradar();" thumburl="panos/panorama_15_999980.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_15_999980.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_15_999980.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot24); set(layer[radar].parent, spot24); set(layer[radar].heading, -172.29);</action><hotspot name="prev_hotspot_1729510761_68479" style="skin_hotspotstyle" ath="-1.146416" atv="-3.044949" alpha="0" linkedscene="scene_23" /><hotspot name="next_hotspot_1729510761_68479" style="skin_hotspotstyle" ath="-0.884225" atv="-3.080675" alpha="0" linkedscene="scene_25" /><hotspot name="hotspot_24_93" style="skin_hotspotstyle" ath="-177.5985605001439" atv="18.7365246593041" alpha="0" linkedscene="scene_25" /><hotspot name="hotspot_24_94" style="skin_hotspotstyle" ath="-177.73050885656528" atv="18.320797961215582" alpha="0" linkedscene="scene_25" /><hotspot name="hotspot_24_95" style="skin_hotspotstyle" ath="-177.6945564791512" atv="17.875566232649444" alpha="0" linkedscene="scene_25" /><hotspot name="hotspot_24_96" style="skin_hotspotstyle" ath="-177.60824013102223" atv="17.35056871144587" alpha="0" linkedscene="scene_25" /></scene>
+
+	<scene name="scene_25" title="panorama_16.333320" onstart="updateradar();" thumburl="panos/panorama_16_333320.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_16_333320.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_16_333320.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot25); set(layer[radar].parent, spot25); set(layer[radar].heading, 173.39);</action><hotspot name="prev_hotspot_1729510762_01812" style="skin_hotspotstyle" ath="-0.884225" atv="-3.080675" alpha="0" linkedscene="scene_24" /><hotspot name="next_hotspot_1729510762_01812" style="skin_hotspotstyle" ath="-0.492924" atv="-3.100859" alpha="0" linkedscene="scene_26" /><hotspot name="hotspot_25_97" style="skin_hotspotstyle" ath="-177.5638697993437" atv="16.98822298789789" alpha="0" linkedscene="scene_26" /><hotspot name="hotspot_25_98" style="skin_hotspotstyle" ath="-177.58114653113682" atv="16.732986619611925" alpha="0" linkedscene="scene_26" /><hotspot name="hotspot_25_99" style="skin_hotspotstyle" ath="-177.66049457324107" atv="16.495971188472428" alpha="0" linkedscene="scene_26" /><hotspot name="hotspot_25_100" style="skin_hotspotstyle" ath="-177.76663025569155" atv="16.309738445691078" alpha="0" linkedscene="scene_26" /></scene>
+
+	<scene name="scene_26" title="panorama_16.666650" onstart="updateradar();" thumburl="panos/panorama_16_666650.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_16_666650.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_16_666650.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot26); set(layer[radar].parent, spot26); set(layer[radar].heading, 168.15);</action><hotspot name="prev_hotspot_1729510762_35145" style="skin_hotspotstyle" ath="-0.492924" atv="-3.100859" alpha="0" linkedscene="scene_25" /><hotspot name="next_hotspot_1729510762_35145" style="skin_hotspotstyle" ath="-0.02783" atv="-3.110702" alpha="0" linkedscene="scene_27" /><hotspot name="hotspot_26_101" style="skin_hotspotstyle" ath="-177.8889970230523" atv="16.074796269064628" alpha="0" linkedscene="scene_27" /><hotspot name="hotspot_26_102" style="skin_hotspotstyle" ath="-177.93691201367164" atv="15.894707418369116" alpha="0" linkedscene="scene_27" /><hotspot name="hotspot_26_103" style="skin_hotspotstyle" ath="-177.91729312911622" atv="15.70437544144654" alpha="0" linkedscene="scene_27" /><hotspot name="hotspot_26_104" style="skin_hotspotstyle" ath="-177.76423619825658" atv="15.488431125339384" alpha="0" linkedscene="scene_27" /></scene>
+
+	<scene name="scene_27" title="panorama_16.999980" onstart="updateradar();" thumburl="panos/panorama_16_999980.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_16_999980.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_16_999980.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot27); set(layer[radar].parent, spot27); set(layer[radar].heading, -176.53);</action><hotspot name="prev_hotspot_1729510762_68479" style="skin_hotspotstyle" ath="-0.02783" atv="-3.110702" alpha="0" linkedscene="scene_26" /><hotspot name="next_hotspot_1729510762_68479" style="skin_hotspotstyle" ath="0.400305" atv="-3.119131" alpha="0" linkedscene="scene_28" /><hotspot name="hotspot_27_105" style="skin_hotspotstyle" ath="-177.64828342210342" atv="15.279797049421548" alpha="0" linkedscene="scene_28" /><hotspot name="hotspot_27_106" style="skin_hotspotstyle" ath="-177.57737825927836" atv="15.028453322598082" alpha="0" linkedscene="scene_28" /><hotspot name="hotspot_27_107" style="skin_hotspotstyle" ath="-177.62929128914908" atv="14.732951529890745" alpha="0" linkedscene="scene_28" /><hotspot name="hotspot_27_108" style="skin_hotspotstyle" ath="-177.87583045515976" atv="14.335847849081386" alpha="0" linkedscene="scene_28" /></scene>
+
+	<scene name="scene_28" title="panorama_2.000000" onstart="updateradar();" thumburl="panos/panorama_2_000000.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_2_000000.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_2_000000.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot28); set(layer[radar].parent, spot28); set(layer[radar].heading, -171.25);</action><hotspot name="prev_hotspot_1729510763_01812" style="skin_hotspotstyle" ath="0.400305" atv="-3.119131" alpha="0" linkedscene="scene_27" /><hotspot name="next_hotspot_1729510763_01812" style="skin_hotspotstyle" ath="0.735992" atv="-3.121043" alpha="0" linkedscene="scene_29" /><hotspot name="hotspot_28_109" style="skin_hotspotstyle" ath="-178.0094597920552" atv="13.966743356224892" alpha="0" linkedscene="scene_29" /><hotspot name="hotspot_28_110" style="skin_hotspotstyle" ath="-178.03468806669724" atv="13.528586150837906" alpha="0" linkedscene="scene_29" /><hotspot name="hotspot_28_111" style="skin_hotspotstyle" ath="-177.9598505768763" atv="13.17164134636809" alpha="0" linkedscene="scene_29" /><hotspot name="hotspot_28_112" style="skin_hotspotstyle" ath="-177.9002455022862" atv="12.867265767578774" alpha="0" linkedscene="scene_29" /></scene>
+
+	<scene name="scene_29" title="panorama_2.333330" onstart="updateradar();" thumburl="panos/panorama_2_333330.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_2_333330.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_2_333330.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot29); set(layer[radar].parent, spot29); set(layer[radar].heading, -156.82);</action><hotspot name="prev_hotspot_1729510763_35145" style="skin_hotspotstyle" ath="0.735992" atv="-3.121043" alpha="0" linkedscene="scene_28" /><hotspot name="next_hotspot_1729510763_35145" style="skin_hotspotstyle" ath="1.012454" atv="-3.12686" alpha="0" linkedscene="scene_30" /><hotspot name="hotspot_29_113" style="skin_hotspotstyle" ath="-177.8682359845582" atv="12.661817617085438" alpha="0" linkedscene="scene_30" /><hotspot name="hotspot_29_114" style="skin_hotspotstyle" ath="-177.85797427746564" atv="12.478788112580663" alpha="0" linkedscene="scene_30" /><hotspot name="hotspot_29_115" style="skin_hotspotstyle" ath="-177.90930709187654" atv="12.229706444555124" alpha="0" linkedscene="scene_30" /><hotspot name="hotspot_29_116" style="skin_hotspotstyle" ath="-177.95472062814923" atv="11.964458480031912" alpha="0" linkedscene="scene_30" /></scene>
+
+	<scene name="scene_30" title="panorama_2.666660" onstart="updateradar();" thumburl="panos/panorama_2_666660.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_2_666660.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_2_666660.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot30); set(layer[radar].parent, spot30); set(layer[radar].heading, -167.72);</action><hotspot name="prev_hotspot_1729510763_68479" style="skin_hotspotstyle" ath="1.012454" atv="-3.12686" alpha="0" linkedscene="scene_29" /><hotspot name="next_hotspot_1729510763_68479" style="skin_hotspotstyle" ath="1.256855" atv="-3.139877" alpha="0" linkedscene="scene_31" /><hotspot name="hotspot_30_117" style="skin_hotspotstyle" ath="-177.97035834520247" atv="11.668571236988614" alpha="0" linkedscene="scene_31" /><hotspot name="hotspot_30_118" style="skin_hotspotstyle" ath="-177.93844151047435" atv="11.354304490692007" alpha="0" linkedscene="scene_31" /><hotspot name="hotspot_30_119" style="skin_hotspotstyle" ath="-177.7797509287045" atv="10.976794128047562" alpha="0" linkedscene="scene_31" /><hotspot name="hotspot_30_120" style="skin_hotspotstyle" ath="-177.7377631793877" atv="10.499593550033007" alpha="0" linkedscene="scene_31" /></scene>
+
+	<scene name="scene_31" title="panorama_3.000000" onstart="updateradar();" thumburl="panos/panorama_3_000000.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_3_000000.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_3_000000.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot31); set(layer[radar].parent, spot31); set(layer[radar].heading, -170.78);</action><hotspot name="prev_hotspot_1729510764_01812" style="skin_hotspotstyle" ath="1.256855" atv="-3.139877" alpha="0" linkedscene="scene_30" /><hotspot name="next_hotspot_1729510764_01812" style="skin_hotspotstyle" ath="1.481001" atv="3.060299" alpha="0" linkedscene="scene_32" /><hotspot name="hotspot_31_121" style="skin_hotspotstyle" ath="-177.70272067758165" atv="10.07462459819987" alpha="0" linkedscene="scene_32" /><hotspot name="hotspot_31_122" style="skin_hotspotstyle" ath="-177.75229721459272" atv="9.652732144394932" alpha="0" linkedscene="scene_32" /><hotspot name="hotspot_31_123" style="skin_hotspotstyle" ath="-177.87813939537068" atv="9.37234200348151" alpha="0" linkedscene="scene_32" /><hotspot name="hotspot_31_124" style="skin_hotspotstyle" ath="-177.925271546475" atv="9.165234109788484" alpha="0" linkedscene="scene_32" /></scene>
+
+	<scene name="scene_32" title="panorama_3.333330" onstart="updateradar();" thumburl="panos/panorama_3_333330.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_3_333330.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_3_333330.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot32); set(layer[radar].parent, spot32); set(layer[radar].heading, 178.07);</action><hotspot name="prev_hotspot_1729510764_35145" style="skin_hotspotstyle" ath="1.481001" atv="3.060299" alpha="0" linkedscene="scene_31" /><hotspot name="next_hotspot_1729510764_35145" style="skin_hotspotstyle" ath="1.434838" atv="0.106795" alpha="0" linkedscene="scene_33" /><hotspot name="hotspot_32_125" style="skin_hotspotstyle" ath="-177.9602582196693" atv="9.053730753284352" alpha="0" linkedscene="scene_33" /><hotspot name="hotspot_32_126" style="skin_hotspotstyle" ath="-177.98186435057926" atv="9.088487362528126" alpha="0" linkedscene="scene_33" /><hotspot name="hotspot_32_127" style="skin_hotspotstyle" ath="-178.04507775009998" atv="9.15511005965313" alpha="0" linkedscene="scene_33" /><hotspot name="hotspot_32_128" style="skin_hotspotstyle" ath="-178.10917752253195" atv="9.300373346644713" alpha="0" linkedscene="scene_33" /></scene>
+
+	<scene name="scene_33" title="panorama_3.666660" onstart="updateradar();" thumburl="panos/panorama_3_666660.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_3_666660.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_3_666660.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot33); set(layer[radar].parent, spot33); set(layer[radar].heading, 176.06);</action><hotspot name="prev_hotspot_1729510764_68478" style="skin_hotspotstyle" ath="1.434838" atv="0.106795" alpha="0" linkedscene="scene_32" /><hotspot name="next_hotspot_1729510764_68478" style="skin_hotspotstyle" ath="1.192034" atv="0.062034" alpha="0" linkedscene="scene_34" /><hotspot name="hotspot_33_129" style="skin_hotspotstyle" ath="-178.13513551068678" atv="9.459655818846095" alpha="0" linkedscene="scene_34" /><hotspot name="hotspot_33_130" style="skin_hotspotstyle" ath="-178.06508276427235" atv="9.649497804872393" alpha="0" linkedscene="scene_34" /><hotspot name="hotspot_33_131" style="skin_hotspotstyle" ath="-177.95288245438937" atv="9.841588898325469" alpha="0" linkedscene="scene_34" /><hotspot name="hotspot_33_132" style="skin_hotspotstyle" ath="-177.90086507072886" atv="10.060731269375816" alpha="0" linkedscene="scene_34" /></scene>
+
+	<scene name="scene_34" title="panorama_3.999990" onstart="updateradar();" thumburl="panos/panorama_3_999990.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_3_999990.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_3_999990.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot34); set(layer[radar].parent, spot34); set(layer[radar].heading, 179.72);</action><hotspot name="prev_hotspot_1729510765_01812" style="skin_hotspotstyle" ath="1.192034" atv="0.062034" alpha="0" linkedscene="scene_33" /><hotspot name="next_hotspot_1729510765_01812" style="skin_hotspotstyle" ath="0.929811" atv="0.043186" alpha="0" linkedscene="scene_35" /><hotspot name="hotspot_34_133" style="skin_hotspotstyle" ath="-177.86436339839295" atv="10.289768520447657" alpha="0" linkedscene="scene_35" /><hotspot name="hotspot_34_134" style="skin_hotspotstyle" ath="-177.85196473151015" atv="10.409002178254108" alpha="0" linkedscene="scene_35" /><hotspot name="hotspot_34_135" style="skin_hotspotstyle" ath="-177.85600424054235" atv="10.595532711643378" alpha="0" linkedscene="scene_35" /><hotspot name="hotspot_34_136" style="skin_hotspotstyle" ath="-177.73955880134196" atv="10.587313558117081" alpha="0" linkedscene="scene_35" /></scene>
+
+	<scene name="scene_35" title="panorama_4.333330" onstart="updateradar();" thumburl="panos/panorama_4_333330.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_4_333330.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_4_333330.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot35); set(layer[radar].parent, spot35); set(layer[radar].heading, -179.71);</action><hotspot name="prev_hotspot_1729510765_35145" style="skin_hotspotstyle" ath="0.929811" atv="0.043186" alpha="0" linkedscene="scene_34" /><hotspot name="next_hotspot_1729510765_35145" style="skin_hotspotstyle" ath="0.662563" atv="0.035712" alpha="0" linkedscene="scene_36" /><hotspot name="hotspot_35_137" style="skin_hotspotstyle" ath="-177.66444511021328" atv="10.7334794926792" alpha="0" linkedscene="scene_36" /><hotspot name="hotspot_35_138" style="skin_hotspotstyle" ath="-177.58611004928892" atv="10.923699588669281" alpha="0" linkedscene="scene_36" /><hotspot name="hotspot_35_139" style="skin_hotspotstyle" ath="-177.5826029425838" atv="11.149383179829956" alpha="0" linkedscene="scene_36" /><hotspot name="hotspot_35_140" style="skin_hotspotstyle" ath="-177.64827157005453" atv="11.498667133290784" alpha="0" linkedscene="scene_36" /></scene>
+
+	<scene name="scene_36" title="panorama_4.666660" onstart="updateradar();" thumburl="panos/panorama_4_666660.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_4_666660.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_4_666660.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot36); set(layer[radar].parent, spot36); set(layer[radar].heading, -166.82);</action><hotspot name="prev_hotspot_1729510765_68478" style="skin_hotspotstyle" ath="0.662563" atv="0.035712" alpha="0" linkedscene="scene_35" /><hotspot name="next_hotspot_1729510765_68478" style="skin_hotspotstyle" ath="0.415696" atv="0.031091" alpha="0" linkedscene="scene_37" /><hotspot name="hotspot_36_141" style="skin_hotspotstyle" ath="-177.70999590605697" atv="11.742316757374901" alpha="0" linkedscene="scene_37" /><hotspot name="hotspot_36_142" style="skin_hotspotstyle" ath="-177.693814724712" atv="11.98961834460586" alpha="0" linkedscene="scene_37" /><hotspot name="hotspot_36_143" style="skin_hotspotstyle" ath="-177.6285894698183" atv="12.126208020717812" alpha="0" linkedscene="scene_37" /><hotspot name="hotspot_36_144" style="skin_hotspotstyle" ath="-177.59498145178244" atv="12.249128345789401" alpha="0" linkedscene="scene_37" /></scene>
+
+	<scene name="scene_37" title="panorama_4.999990" onstart="updateradar();" thumburl="panos/panorama_4_999990.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_4_999990.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_4_999990.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot37); set(layer[radar].parent, spot37); set(layer[radar].heading, -171.40);</action><hotspot name="prev_hotspot_1729510766_01812" style="skin_hotspotstyle" ath="0.415696" atv="0.031091" alpha="0" linkedscene="scene_36" /><hotspot name="next_hotspot_1729510766_01812" style="skin_hotspotstyle" ath="0.203419" atv="0.026727" alpha="0" linkedscene="scene_38" /><hotspot name="hotspot_37_145" style="skin_hotspotstyle" ath="-177.58945591579783" atv="12.3621145027367" alpha="0" linkedscene="scene_38" /><hotspot name="hotspot_37_146" style="skin_hotspotstyle" ath="-177.58944337477445" atv="12.456702967543357" alpha="0" linkedscene="scene_38" /><hotspot name="hotspot_37_147" style="skin_hotspotstyle" ath="-177.63664323696256" atv="12.560579750215638" alpha="0" linkedscene="scene_38" /><hotspot name="hotspot_37_148" style="skin_hotspotstyle" ath="-177.74264476074075" atv="12.642380701062136" alpha="0" linkedscene="scene_38" /></scene>
+
+	<scene name="scene_38" title="panorama_5.333330" onstart="updateradar();" thumburl="panos/panorama_5_333330.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_5_333330.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_5_333330.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot38); set(layer[radar].parent, spot38); set(layer[radar].heading, 179.49);</action><hotspot name="prev_hotspot_1729510766_35145" style="skin_hotspotstyle" ath="0.203419" atv="0.026727" alpha="0" linkedscene="scene_37" /><hotspot name="next_hotspot_1729510766_35145" style="skin_hotspotstyle" ath="0.041051" atv="0.012302" alpha="0" linkedscene="scene_39" /><hotspot name="hotspot_38_149" style="skin_hotspotstyle" ath="-177.80519372597388" atv="12.826393195910581" alpha="0" linkedscene="scene_39" /><hotspot name="hotspot_38_150" style="skin_hotspotstyle" ath="-177.69647770208437" atv="13.003935183228549" alpha="0" linkedscene="scene_39" /><hotspot name="hotspot_38_151" style="skin_hotspotstyle" ath="-177.55506743698547" atv="13.330386794151362" alpha="0" linkedscene="scene_39" /><hotspot name="hotspot_38_152" style="skin_hotspotstyle" ath="-177.464038062622" atv="13.737396176542992" alpha="0" linkedscene="scene_39" /></scene>
+
+	<scene name="scene_39" title="panorama_5.666660" onstart="updateradar();" thumburl="panos/panorama_5_666660.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_5_666660.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_5_666660.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot39); set(layer[radar].parent, spot39); set(layer[radar].heading, 175.72);</action><hotspot name="prev_hotspot_1729510766_68478" style="skin_hotspotstyle" ath="0.041051" atv="0.012302" alpha="0" linkedscene="scene_38" /><hotspot name="next_hotspot_1729510766_68478" style="skin_hotspotstyle" ath="-0.075289" atv="0.008968" alpha="0" linkedscene="scene_40" /><hotspot name="hotspot_39_153" style="skin_hotspotstyle" ath="-177.45286719759096" atv="14.223114928235699" alpha="0" linkedscene="scene_40" /><hotspot name="hotspot_39_154" style="skin_hotspotstyle" ath="-177.60901511146005" atv="14.782332601847461" alpha="0" linkedscene="scene_40" /><hotspot name="hotspot_39_155" style="skin_hotspotstyle" ath="-177.72197612960025" atv="15.489669835343543" alpha="0" linkedscene="scene_40" /><hotspot name="hotspot_39_156" style="skin_hotspotstyle" ath="-177.7580935613733" atv="16.218398033766622" alpha="0" linkedscene="scene_40" /></scene>
+
+	<scene name="scene_40" title="panorama_5.999990" onstart="updateradar();" thumburl="panos/panorama_5_999990.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_5_999990.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_5_999990.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot40); set(layer[radar].parent, spot40); set(layer[radar].heading, 174.44);</action><hotspot name="prev_hotspot_1729510767_01812" style="skin_hotspotstyle" ath="-0.075289" atv="0.008968" alpha="0" linkedscene="scene_39" /><hotspot name="next_hotspot_1729510767_01812" style="skin_hotspotstyle" ath="-0.17298" atv="0.005948" alpha="0" linkedscene="scene_41" /><hotspot name="hotspot_40_157" style="skin_hotspotstyle" ath="-177.6853359912988" atv="16.828102645824902" alpha="0" linkedscene="scene_41" /><hotspot name="hotspot_40_158" style="skin_hotspotstyle" ath="-177.63601563063168" atv="17.46455262928561" alpha="0" linkedscene="scene_41" /><hotspot name="hotspot_40_159" style="skin_hotspotstyle" ath="-177.59882317723927" atv="18.138356235294502" alpha="0" linkedscene="scene_41" /><hotspot name="hotspot_40_160" style="skin_hotspotstyle" ath="-177.69858672649698" atv="18.909982204756922" alpha="0" linkedscene="scene_41" /></scene>
+
+	<scene name="scene_41" title="panorama_6.333330" onstart="updateradar();" thumburl="panos/panorama_6_333330.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_6_333330.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_6_333330.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot41); set(layer[radar].parent, spot41); set(layer[radar].heading, 178.30);</action><hotspot name="prev_hotspot_1729510767_35145" style="skin_hotspotstyle" ath="-0.17298" atv="0.005948" alpha="0" linkedscene="scene_40" /><hotspot name="next_hotspot_1729510767_35145" style="skin_hotspotstyle" ath="-0.255115" atv="0.003024" alpha="0" linkedscene="scene_42" /><hotspot name="hotspot_41_161" style="skin_hotspotstyle" ath="-177.84157377384662" atv="19.70786310034114" alpha="0" linkedscene="scene_42" /><hotspot name="hotspot_41_162" style="skin_hotspotstyle" ath="-177.87173240831683" atv="20.67101038147875" alpha="0" linkedscene="scene_42" /><hotspot name="hotspot_41_163" style="skin_hotspotstyle" ath="-177.79792528371485" atv="21.81089577643355" alpha="0" linkedscene="scene_42" /><hotspot name="hotspot_41_164" style="skin_hotspotstyle" ath="-177.48563299237782" atv="22.85864546563909" alpha="0" linkedscene="scene_42" /></scene>
+
+	<scene name="scene_42" title="panorama_6.666660" onstart="updateradar();" thumburl="panos/panorama_6_666660.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_6_666660.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_6_666660.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot42); set(layer[radar].parent, spot42); set(layer[radar].heading, -175.17);</action><hotspot name="prev_hotspot_1729510767_68478" style="skin_hotspotstyle" ath="-0.255115" atv="0.003024" alpha="0" linkedscene="scene_41" /><hotspot name="next_hotspot_1729510767_68478" style="skin_hotspotstyle" ath="-0.337" atv="-0.000492" alpha="0" linkedscene="scene_43" /><hotspot name="hotspot_42_165" style="skin_hotspotstyle" ath="-177.1401658158576" atv="23.870258396452716" alpha="0" linkedscene="scene_43" /><hotspot name="hotspot_42_166" style="skin_hotspotstyle" ath="-176.87831454259506" atv="24.980726077168537" alpha="0" linkedscene="scene_43" /><hotspot name="hotspot_42_167" style="skin_hotspotstyle" ath="-176.7779220685881" atv="26.294242429562633" alpha="0" linkedscene="scene_43" /><hotspot name="hotspot_42_168" style="skin_hotspotstyle" ath="-176.9090628242808" atv="27.63532793513956" alpha="0" linkedscene="scene_43" /></scene>
+
+	<scene name="scene_43" title="panorama_6.999990" onstart="updateradar();" thumburl="panos/panorama_6_999990.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_6_999990.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_6_999990.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot43); set(layer[radar].parent, spot43); set(layer[radar].heading, -170.35);</action><hotspot name="prev_hotspot_1729510768_01811" style="skin_hotspotstyle" ath="-0.337" atv="-0.000492" alpha="0" linkedscene="scene_42" /><hotspot name="next_hotspot_1729510768_01811" style="skin_hotspotstyle" ath="-0.435535" atv="-0.001259" alpha="0" linkedscene="scene_44" /><hotspot name="hotspot_43_169" style="skin_hotspotstyle" ath="-177.0385548341967" atv="28.897160613004463" alpha="0" linkedscene="scene_44" /><hotspot name="hotspot_43_170" style="skin_hotspotstyle" ath="-176.98815328821578" atv="30.21191053999928" alpha="0" linkedscene="scene_44" /><hotspot name="hotspot_43_171" style="skin_hotspotstyle" ath="-176.79171993071662" atv="31.356318449148585" alpha="0" linkedscene="scene_44" /><hotspot name="hotspot_43_172" style="skin_hotspotstyle" ath="-176.76471690277822" atv="32.49681091993704" alpha="0" linkedscene="scene_44" /></scene>
+
+	<scene name="scene_44" title="panorama_7.333320" onstart="updateradar();" thumburl="panos/panorama_7_333320.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_7_333320.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_7_333320.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot44); set(layer[radar].parent, spot44); set(layer[radar].heading, -174.03);</action><hotspot name="prev_hotspot_1729510768_35145" style="skin_hotspotstyle" ath="-0.435535" atv="-0.001259" alpha="0" linkedscene="scene_43" /><hotspot name="next_hotspot_1729510768_35145" style="skin_hotspotstyle" ath="-0.547827" atv="-0.004426" alpha="0" linkedscene="scene_45" /><hotspot name="hotspot_44_173" style="skin_hotspotstyle" ath="-176.70555091674544" atv="33.597772827142336" alpha="0" linkedscene="scene_45" /><hotspot name="hotspot_44_174" style="skin_hotspotstyle" ath="-176.792483913621" atv="34.76953057820984" alpha="0" linkedscene="scene_45" /><hotspot name="hotspot_44_175" style="skin_hotspotstyle" ath="-176.89855115238169" atv="35.94819517122083" alpha="0" linkedscene="scene_45" /><hotspot name="hotspot_44_176" style="skin_hotspotstyle" ath="-176.89791136969407" atv="37.08836322731306" alpha="0" linkedscene="scene_45" /></scene>
+
+	<scene name="scene_45" title="panorama_7.666660" onstart="updateradar();" thumburl="panos/panorama_7_666660.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_7_666660.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_7_666660.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot45); set(layer[radar].parent, spot45); set(layer[radar].heading, -173.33);</action><hotspot name="prev_hotspot_1729510768_68478" style="skin_hotspotstyle" ath="-0.547827" atv="-0.004426" alpha="0" linkedscene="scene_44" /><hotspot name="next_hotspot_1729510768_68478" style="skin_hotspotstyle" ath="-0.686446" atv="-0.008231" alpha="0" linkedscene="scene_46" /><hotspot name="hotspot_45_177" style="skin_hotspotstyle" ath="-176.91754022102882" atv="38.40745878990518" alpha="0" linkedscene="scene_46" /><hotspot name="hotspot_45_178" style="skin_hotspotstyle" ath="-176.87828499666145" atv="39.52463216597412" alpha="0" linkedscene="scene_46" /><hotspot name="hotspot_45_179" style="skin_hotspotstyle" ath="-176.75018350619942" atv="40.543092511649924" alpha="0" linkedscene="scene_46" /><hotspot name="hotspot_45_180" style="skin_hotspotstyle" ath="-176.55949927905854" atv="41.53027412173524" alpha="0" linkedscene="scene_46" /></scene>
+
+	<scene name="scene_46" title="panorama_7.999990" onstart="updateradar();" thumburl="panos/panorama_7_999990.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_7_999990.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_7_999990.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot46); set(layer[radar].parent, spot46); set(layer[radar].heading, 175.50);</action><hotspot name="prev_hotspot_1729510769_01811" style="skin_hotspotstyle" ath="-0.686446" atv="-0.008231" alpha="0" linkedscene="scene_45" /><hotspot name="next_hotspot_1729510769_01811" style="skin_hotspotstyle" ath="-0.850703" atv="-0.013097" alpha="0" linkedscene="scene_47" /><hotspot name="hotspot_46_181" style="skin_hotspotstyle" ath="-176.6402074846455" atv="42.62541105061796" alpha="0" linkedscene="scene_47" /><hotspot name="hotspot_46_182" style="skin_hotspotstyle" ath="-176.80666001074766" atv="43.38860740535824" alpha="0" linkedscene="scene_47" /><hotspot name="hotspot_46_183" style="skin_hotspotstyle" ath="-176.9945947098626" atv="44.15151294609502" alpha="0" linkedscene="scene_47" /><hotspot name="hotspot_46_184" style="skin_hotspotstyle" ath="-176.9820573497973" atv="44.901463316156736" alpha="0" linkedscene="scene_47" /></scene>
+
+	<scene name="scene_47" title="panorama_8.333320" onstart="updateradar();" thumburl="panos/panorama_8_333320.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_8_333320.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_8_333320.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot47); set(layer[radar].parent, spot47); set(layer[radar].heading, 171.07);</action><hotspot name="prev_hotspot_1729510769_35145" style="skin_hotspotstyle" ath="-0.850703" atv="-0.013097" alpha="0" linkedscene="scene_46" /><hotspot name="next_hotspot_1729510769_35145" style="skin_hotspotstyle" ath="-1.015951" atv="-0.019781" alpha="0" linkedscene="scene_48" /><hotspot name="hotspot_47_185" style="skin_hotspotstyle" ath="-176.63667926790498" atv="45.56462868766554" alpha="0" linkedscene="scene_48" /><hotspot name="hotspot_47_186" style="skin_hotspotstyle" ath="-176.37190300617553" atv="46.16600744558824" alpha="0" linkedscene="scene_48" /><hotspot name="hotspot_47_187" style="skin_hotspotstyle" ath="-176.1563493354658" atv="46.79555258693796" alpha="0" linkedscene="scene_48" /><hotspot name="hotspot_47_188" style="skin_hotspotstyle" ath="-176.20875340898243" atv="47.4274155614639" alpha="0" linkedscene="scene_48" /></scene>
+
+	<scene name="scene_48" title="panorama_8.666660" onstart="updateradar();" thumburl="panos/panorama_8_666660.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_8_666660.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_8_666660.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot48); set(layer[radar].parent, spot48); set(layer[radar].heading, 178.30);</action><hotspot name="prev_hotspot_1729510769_68478" style="skin_hotspotstyle" ath="-1.015951" atv="-0.019781" alpha="0" linkedscene="scene_47" /><hotspot name="next_hotspot_1729510769_68478" style="skin_hotspotstyle" ath="-1.191709" atv="-0.03986" alpha="0" linkedscene="scene_49" /><hotspot name="hotspot_48_189" style="skin_hotspotstyle" ath="-176.2293067706857" atv="47.92975965314503" alpha="0" linkedscene="scene_49" /><hotspot name="hotspot_48_190" style="skin_hotspotstyle" ath="-176.28978322020131" atv="48.699693709586185" alpha="0" linkedscene="scene_49" /><hotspot name="hotspot_48_191" style="skin_hotspotstyle" ath="-176.16562506470405" atv="49.255958536945215" alpha="0" linkedscene="scene_49" /><hotspot name="hotspot_48_192" style="skin_hotspotstyle" ath="-175.72070180069304" atv="49.65076151821721" alpha="0" linkedscene="scene_49" /></scene>
+
+	<scene name="scene_49" title="panorama_8.999990" onstart="updateradar();" thumburl="panos/panorama_8_999990.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_8_999990.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_8_999990.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot49); set(layer[radar].parent, spot49); set(layer[radar].heading, -172.27);</action><hotspot name="prev_hotspot_1729510770_01811" style="skin_hotspotstyle" ath="-1.191709" atv="-0.03986" alpha="0" linkedscene="scene_48" /><hotspot name="next_hotspot_1729510770_01811" style="skin_hotspotstyle" ath="-1.361381" atv="-0.079293" alpha="0" linkedscene="scene_50" /><hotspot name="hotspot_49_193" style="skin_hotspotstyle" ath="-175.38338294361992" atv="50.217537312677344" alpha="0" linkedscene="scene_50" /><hotspot name="hotspot_49_194" style="skin_hotspotstyle" ath="-175.32695572151897" atv="50.75874730741564" alpha="0" linkedscene="scene_50" /><hotspot name="hotspot_49_195" style="skin_hotspotstyle" ath="-175.42228385679297" atv="51.20900091089709" alpha="0" linkedscene="scene_50" /><hotspot name="hotspot_49_196" style="skin_hotspotstyle" ath="-175.60379507969418" atv="51.48211457886403" alpha="0" linkedscene="scene_50" /></scene>
+
+	<scene name="scene_50" title="panorama_9.333320" onstart="updateradar();" thumburl="panos/panorama_9_333320.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_9_333320.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_9_333320.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot50); set(layer[radar].parent, spot50); set(layer[radar].heading, -173.84);</action><hotspot name="prev_hotspot_1729510770_35145" style="skin_hotspotstyle" ath="-1.361381" atv="-0.079293" alpha="0" linkedscene="scene_49" /><hotspot name="next_hotspot_1729510770_35145" style="skin_hotspotstyle" ath="-1.513496" atv="-0.333792" alpha="0" linkedscene="scene_51" /><hotspot name="hotspot_50_197" style="skin_hotspotstyle" ath="-175.84568323409732" atv="51.810802506082844" alpha="0" linkedscene="scene_51" /><hotspot name="hotspot_50_198" style="skin_hotspotstyle" ath="-176.04236651915113" atv="52.19900766716519" alpha="0" linkedscene="scene_51" /><hotspot name="hotspot_50_199" style="skin_hotspotstyle" ath="-175.9479165732158" atv="52.43993575363573" alpha="0" linkedscene="scene_51" /><hotspot name="hotspot_50_200" style="skin_hotspotstyle" ath="-175.91453432206706" atv="52.83697619951377" alpha="0" linkedscene="scene_51" /></scene>
+
+	<scene name="scene_51" title="panorama_9.666660" onstart="updateradar();" thumburl="panos/panorama_9_666660.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_9_666660.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_9_666660.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot51); set(layer[radar].parent, spot51); set(layer[radar].heading, -176.75);</action><hotspot name="prev_hotspot_1729510770_68478" style="skin_hotspotstyle" ath="-1.513496" atv="-0.333792" alpha="0" linkedscene="scene_50" /><hotspot name="next_hotspot_1729510770_68478" style="skin_hotspotstyle" ath="-1.475613" atv="-2.924609" alpha="0" linkedscene="scene_52" /><hotspot name="hotspot_51_201" style="skin_hotspotstyle" ath="-175.79896631662353" atv="53.181369824295714" alpha="0" linkedscene="scene_52" /><hotspot name="hotspot_51_202" style="skin_hotspotstyle" ath="-175.8436913798196" atv="53.59688129937092" alpha="0" linkedscene="scene_52" /><hotspot name="hotspot_51_203" style="skin_hotspotstyle" ath="-175.96652036846763" atv="53.99100845671586" alpha="0" linkedscene="scene_52" /><hotspot name="hotspot_51_204" style="skin_hotspotstyle" ath="-175.99715306702876" atv="54.30444849222098" alpha="0" linkedscene="scene_52" /></scene>
+
+	<scene name="scene_52" title="panorama_9.999990" onstart="updateradar();" thumburl="panos/panorama_9_999990.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/panorama_9_999990.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/panorama_9_999990.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,512" />
+		</image>
+
+	<action name="updateradar">set(layer[activespot].parent, spot52); set(layer[radar].parent, spot52); set(layer[radar].heading, -173.12);</action><hotspot name="prev_hotspot_1729510771_01811" style="skin_hotspotstyle" ath="-1.475613" atv="-2.924609" alpha="0" linkedscene="scene_51" /><hotspot name="hotspot_52_205" style="skin_hotspotstyle" ath="-176.014075595299" atv="54.70283154954714" alpha="0" linkedscene="scene_1" /><hotspot name="hotspot_52_206" style="skin_hotspotstyle" ath="-175.86204788261261" atv="55.054340187148696" alpha="0" linkedscene="scene_1" /><hotspot name="hotspot_52_207" style="skin_hotspotstyle" ath="-175.4988897897556" atv="55.39840184358143" alpha="0" linkedscene="scene_1" /><hotspot name="hotspot_52_208" style="skin_hotspotstyle" ath="-175.17648100964223" atv="55.68879117148952" alpha="0" linkedscene="scene_1" /></scene>
+
+
+<layer name="spot1" style="mapspot" x="466.32283018867923" y="498.6514466780946" zorder="2" onclick="mapspot_loadscene('scene_1');" /><layer name="spot2" style="mapspot" x="461.9838073027366" y="471.3898866527825" zorder="2" onclick="mapspot_loadscene('scene_2');" /><layer name="spot3" style="mapspot" x="458.31595748544635" y="445.72350433067794" zorder="2" onclick="mapspot_loadscene('scene_3');" /><layer name="spot4" style="mapspot" x="456.25194834367113" y="418.5154278620988" zorder="2" onclick="mapspot_loadscene('scene_4');" /><layer name="spot5" style="mapspot" x="449.4687784820893" y="390.92806589673853" zorder="2" onclick="mapspot_loadscene('scene_5');" /><layer name="spot6" style="mapspot" x="440.80946350877946" y="366.17011927557587" zorder="2" onclick="mapspot_loadscene('scene_6');" /><layer name="spot7" style="mapspot" x="431.58938494052944" y="344.42452352231965" zorder="2" onclick="mapspot_loadscene('scene_7');" /><layer name="spot8" style="mapspot" x="417.05457560549365" y="326.32475204893103" zorder="2" onclick="mapspot_loadscene('scene_8');" /><layer name="spot9" style="mapspot" x="403.1043324665753" y="311.4648421155426" zorder="2" onclick="mapspot_loadscene('scene_9');" /><layer name="spot10" style="mapspot" x="385.7649378349215" y="301.75156136338524" zorder="2" onclick="mapspot_loadscene('scene_10');" /><layer name="spot11" style="mapspot" x="367.3291935837344" y="303.92572093788806" zorder="2" onclick="mapspot_loadscene('scene_11');" /><layer name="spot12" style="mapspot" x="351.61694915801684" y="311.26937232568673" zorder="2" onclick="mapspot_loadscene('scene_12');" /><layer name="spot13" style="mapspot" x="338.43986143970255" y="327.50594268737416" zorder="2" onclick="mapspot_loadscene('scene_13');" /><layer name="spot14" style="mapspot" x="332.7348501942017" y="348.39338610843254" zorder="2" onclick="mapspot_loadscene('scene_14');" /><layer name="spot15" style="mapspot" x="323.74874354023245" y="367.3111429379675" zorder="2" onclick="mapspot_loadscene('scene_15');" /><layer name="spot16" style="mapspot" x="312.2880278643381" y="379.7187367155873" zorder="2" onclick="mapspot_loadscene('scene_16');" /><layer name="spot17" style="mapspot" x="298.79019766386585" y="391.1326323039465" zorder="2" onclick="mapspot_loadscene('scene_17');" /><layer name="spot18" style="mapspot" x="282.54351816441925" y="396.89501966795314" zorder="2" onclick="mapspot_loadscene('scene_18');" /><layer name="spot19" style="mapspot" x="265.874364726243" y="399.80722792622817" zorder="2" onclick="mapspot_loadscene('scene_19');" /><layer name="spot20" style="mapspot" x="249.54264726348546" y="404.74084079624777" zorder="2" onclick="mapspot_loadscene('scene_20');" /><layer name="spot21" style="mapspot" x="232.4628680796562" y="404.2463209581097" zorder="2" onclick="mapspot_loadscene('scene_21');" /><layer name="spot22" style="mapspot" x="215.24421035125644" y="405.0346409471091" zorder="2" onclick="mapspot_loadscene('scene_22');" /><layer name="spot23" style="mapspot" x="197.88521114079674" y="411.72143384082756" zorder="2" onclick="mapspot_loadscene('scene_23');" /><layer name="spot24" style="mapspot" x="184.05689919992136" y="416.0149775483564" zorder="2" onclick="mapspot_loadscene('scene_24');" /><layer name="spot25" style="mapspot" x="178.2485885617824" y="429.1833640021133" zorder="2" onclick="mapspot_loadscene('scene_25');" /><layer name="spot26" style="mapspot" x="192.63155164385626" y="436.12615034760574" zorder="2" onclick="mapspot_loadscene('scene_26');" /><layer name="spot27" style="mapspot" x="210.4602946401895" y="434.29622576694277" zorder="2" onclick="mapspot_loadscene('scene_27');" /><layer name="spot28" style="mapspot" x="223.68963899781625" y="433.4384457711117" zorder="2" onclick="mapspot_loadscene('scene_28');" /><layer name="spot29" style="mapspot" x="239.83230460211348" y="430.45337677338574" zorder="2" onclick="mapspot_loadscene('scene_29');" /><layer name="spot30" style="mapspot" x="254.93046421044608" y="431.8685922923342" zorder="2" onclick="mapspot_loadscene('scene_30');" /><layer name="spot31" style="mapspot" x="271.96233971425863" y="431.2710619928603" zorder="2" onclick="mapspot_loadscene('scene_31');" /><layer name="spot32" style="mapspot" x="289.4853217327025" y="422.81646110884395" zorder="2" onclick="mapspot_loadscene('scene_32');" /><layer name="spot33" style="mapspot" x="305.86558951305415" y="412.82571720088333" zorder="2" onclick="mapspot_loadscene('scene_33');" /><layer name="spot34" style="mapspot" x="319.4864325889823" y="395.7021346743878" zorder="2" onclick="mapspot_loadscene('scene_34');" /><layer name="spot35" style="mapspot" x="329.16732571046754" y="369.3491480373757" zorder="2" onclick="mapspot_loadscene('scene_35');" /><layer name="spot36" style="mapspot" x="333.9343897901732" y="343.67611744762667" zorder="2" onclick="mapspot_loadscene('scene_36');" /><layer name="spot37" style="mapspot" x="334.2792179215016" y="316.79313788363186" zorder="2" onclick="mapspot_loadscene('scene_37');" /><layer name="spot38" style="mapspot" x="332.60304304769306" y="291.9835775508525" zorder="2" onclick="mapspot_loadscene('scene_38');" /><layer name="spot39" style="mapspot" x="329.97758500319276" y="265.9112046430181" zorder="2" onclick="mapspot_loadscene('scene_39');" /><layer name="spot40" style="mapspot" x="324.88145666387254" y="239.71199882121465" zorder="2" onclick="mapspot_loadscene('scene_40');" /><layer name="spot41" style="mapspot" x="322.0659896092502" y="216.75356066372416" zorder="2" onclick="mapspot_loadscene('scene_41');" /><layer name="spot42" style="mapspot" x="319.27634388149374" y="192.30458519968778" zorder="2" onclick="mapspot_loadscene('scene_42');" /><layer name="spot43" style="mapspot" x="309.31996458521115" y="167.21594492773391" zorder="2" onclick="mapspot_loadscene('scene_43');" /><layer name="spot44" style="mapspot" x="298.8912062948683" y="145.6197426790739" zorder="2" onclick="mapspot_loadscene('scene_44');" /><layer name="spot45" style="mapspot" x="284.9059202010186" y="125.07701561338979" zorder="2" onclick="mapspot_loadscene('scene_45');" /><layer name="spot46" style="mapspot" x="267.4677354174411" y="115.07175693634196" zorder="2" onclick="mapspot_loadscene('scene_46');" /><layer name="spot47" style="mapspot" x="252.78056904978067" y="111.55193745082602" zorder="2" onclick="mapspot_loadscene('scene_47');" /><layer name="spot48" style="mapspot" x="235.16269008579368" y="107.51741577272986" zorder="2" onclick="mapspot_loadscene('scene_48');" /><layer name="spot49" style="mapspot" x="216.7786755603288" y="109.88674037455678" zorder="2" onclick="mapspot_loadscene('scene_49');" /><layer name="spot50" style="mapspot" x="203.6174989678301" y="111.7149409607436" zorder="2" onclick="mapspot_loadscene('scene_50');" /><layer name="spot51" style="mapspot" x="191.50097434492733" y="113.61112626728061" zorder="2" onclick="mapspot_loadscene('scene_51');" /><layer name="spot52" style="mapspot" x="181.36584905660374" y="121.37691548490989" zorder="2" onclick="mapspot_loadscene('scene_52');" /><include url="plugins/garrows/garrows_settings.xml" /><include url="plugins/garrows/garrows.xml" /></krpano>
