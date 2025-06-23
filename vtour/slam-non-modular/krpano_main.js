@@ -3,7 +3,7 @@ const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYW
 // window.addEventListener('message', function (event) {
 
 //     const { userAccesstoken } = event.data;
-    
+
 //     if (userAccesstoken) {
 //         window.accessToken = userAccesstoken;
 //         // console.log("Received token:", userAccesstoken);
@@ -168,31 +168,31 @@ window.initializeFileSaver = function (krpano) {
                     saveasbutton.onclick = function () {
                         screenshotcanvas.toBlob(function (blob) {
                             const filename = "screenshot" + (krpano.makescreenshot_count++) + ".jpg";
-                    
+
                             const reader = new FileReader();
                             reader.onloadend = function () {
                                 const base64data = reader.result;
 
-                                    function isFlutterWebView() {
-                                        return typeof window.ImageSaver === 'object' && typeof window.ImageSaver.postMessage === 'function';
-                                    }
-                        
-                                    if (isFlutterWebView()) {
-                                        console.log("------------It is in isFlutterApp-------")
-                                        // Inside Flutter WebView
-                                        const payload = {
-                                            type: "saveImage",
-                                            filename: filename,
-                                            base64: base64data
-                                        };
-                                        console.log(base64data,"----------base64data-------------");
-                                        console.log(filename,"-----filename----------");    
-                                        window.ImageSaver.postMessage(JSON.stringify(payload));
+                                function isFlutterWebView() {
+                                    return typeof window.ImageSaver === 'object' && typeof window.ImageSaver.postMessage === 'function';
+                                }
+
+                                if (isFlutterWebView()) {
+                                    console.log("------------It is in isFlutterApp-------")
+                                    // Inside Flutter WebView
+                                    const payload = {
+                                        type: "saveImage",
+                                        filename: filename,
+                                        base64: base64data
+                                    };
+                                    console.log(base64data, "----------base64data-------------");
+                                    console.log(filename, "-----filename----------");
+                                    window.ImageSaver.postMessage(JSON.stringify(payload));
                                 } else {
                                     // ✅ Not Flutter — fallback to normal desktop/mobile web download
                                     krpano.screenshotSaveAs(blob, filename);
                                 }
-                    
+
                                 // ✅ Close screenshot layer in both cases
                                 krpano.call("set(layer[screenshot].enabled,false); " +
                                     "tween(layer[screenshot].alpha,0,0.2,default,removelayer(screenshot,true));");
@@ -200,7 +200,7 @@ window.initializeFileSaver = function (krpano) {
                             reader.readAsDataURL(blob);
                         }, "image/jpeg", 0.95);
                     };
-   
+
                 }
             }
         }
@@ -800,7 +800,7 @@ window.isDateAvailable = function (dateToCheck) {
 function showLoadPopUp() {
     const popup = document.createElement('div');
     popup.id = 'loadPopUp';
-    
+
     const message = document.createElement('div');
     message.textContent = 'Loading high-resolution view… This may take few seconds.';
     message.style.color = '#333'; // Black text for contrast
@@ -834,7 +834,7 @@ function showLoadPopUp() {
         popup.style.whiteSpace = 'normal';
         popup.style.padding = '8px 20px'; // Slightly smaller padding on mobile
         message.style.fontWeight = '700';
-        
+
         // Split text into two lines (your existing logic)
         const text = message.textContent;
         const spaceIndices = [];
@@ -852,7 +852,7 @@ function showLoadPopUp() {
             }
         });
         message.innerHTML = text.substring(0, bestSplit) + '<br>' + text.substring(bestSplit + 1);
-        
+
         // Measure width for responsiveness
         const temp = document.createElement('div');
         temp.style.position = 'absolute';
@@ -881,12 +881,12 @@ function showLoadPopUp() {
         @keyframes fadeOut { to { opacity: 0; } }
     `;
     document.head.appendChild(style);
-    
+
     // Append and show
     popup.appendChild(message);
     document.body.appendChild(popup);
     setTimeout(() => popup.style.opacity = '1', 10);
-    
+
     // Auto-dismiss after 15 seconds
     setTimeout(() => {
         popup.style.animation = 'fadeOut 0.5s forwards';
@@ -1120,48 +1120,48 @@ function fetchFloors() {
             }).forEach((floor, index) => {
 
                 // if (floor.capture && floor.capture.trim() !== "") {
-                    if (floor.capture && floor.capture.trim() !== "" && floor.capture !== null) {
-                        if (floor.floor_id === floorId) {
-                            ids = {
-                                ...ids,
-                                floor_name: floor?.floor_name
-                            }
-                            // Set default floor name in the dropdown button
-                            krpano.call(`set(layer[dropdown_button].html, "<span style='display: flex; justify-content: space-between; width: 100%;'> 
+                if (floor.capture && floor.capture.trim() !== "" && floor.capture !== null) {
+                    if (floor.floor_id === floorId) {
+                        ids = {
+                            ...ids,
+                            floor_name: floor?.floor_name
+                        }
+                        // Set default floor name in the dropdown button
+                        krpano.call(`set(layer[dropdown_button].html, "<span style='display: flex; justify-content: space-between; width: 100%;'> 
                             <span id='floor_name_text'>${floor.floor_name}</span> 
                             <span>▼</span> 
                         </span>")`);
-                            // krpano.call(`set(layer[selected_floor].html, '${floor.floor_name}')`);
-                            krpano.call("set(layer[dropdown_list].height, " + 0 + ");");
-                        } else {
-                            let layerName = "floor_option_" + floor.floor_id;
-                            let yPos = (i * 40) + 8; // Adjust vertical positioning dynamically
-                            let boxHeight = (40 * (i + 1)) + 16; // Adjust vertical positioning dynamically
-                            i = i + 1;
-    
-                            krpano.call("set(layer[dropdown_list].height, " + boxHeight + ");");
-    
-                            // Add new dropdown items dynamically inside existing dropdown
-                            krpano.call("addlayer(" + layerName + ");");
-                            krpano.call(`set(layer[${layerName}].keep, true);`);
-                            krpano.call("set(layer[" + layerName + "].parent, dropdown_list);");
-                            krpano.call("set(layer[" + layerName + "].type, text);");
-                            krpano.call("set(layer[" + layerName + "].html, " + floor.floor_name + ");");
-                            krpano.call("set(layer[" + layerName + "].align, topleft);");
-                            krpano.call("set(layer[" + layerName + "].width, 280);");
-                            krpano.call("set(layer[" + layerName + "].height, 40);");
-                            krpano.call("set(layer[" + layerName + "].y, " + yPos + ");");
-                            krpano.call("set(layer[" + layerName + "].x, 8);");
-                            // krpano.call("set(layer[" + layerName + "].css, font-family:Arial; color:black; font-size:18px; text-align:left; padding:9px 9px 9px 15px; box-shadow: 10px 0px 2px rgba(255, 255, 255, 0.7););");
-                            krpano.call("set(layer[" + layerName + "].css, font-family:Arial; color:black; font-size:18px; text-align:left; padding:9px 9px 9px 15px;);");
-                            krpano.call("set(layer[" + layerName + "].bgcolor, 0xFFFFFF);");
-                            krpano.call("set(layer[" + layerName + "].bgalpha, 1);");
-                            krpano.call("set(layer[" + layerName + "].bgroundedge, 36);");
-                            krpano.call(`set(layer[${layerName}].onhover, set(bgcolor,0xDFFF60))`);
-                            krpano.call(`set(layer[${layerName}].onout, set(bgcolor,0xFFFFFF))`);
-                            krpano.call(`set(layer[${layerName}].onclick, select_floor('${layerName}', '${floor.floor_name}', '${floor.capture}'))`);
-                        }
+                        // krpano.call(`set(layer[selected_floor].html, '${floor.floor_name}')`);
+                        krpano.call("set(layer[dropdown_list].height, " + 0 + ");");
+                    } else {
+                        let layerName = "floor_option_" + floor.floor_id;
+                        let yPos = (i * 40) + 8; // Adjust vertical positioning dynamically
+                        let boxHeight = (40 * (i + 1)) + 16; // Adjust vertical positioning dynamically
+                        i = i + 1;
+
+                        krpano.call("set(layer[dropdown_list].height, " + boxHeight + ");");
+
+                        // Add new dropdown items dynamically inside existing dropdown
+                        krpano.call("addlayer(" + layerName + ");");
+                        krpano.call(`set(layer[${layerName}].keep, true);`);
+                        krpano.call("set(layer[" + layerName + "].parent, dropdown_list);");
+                        krpano.call("set(layer[" + layerName + "].type, text);");
+                        krpano.call("set(layer[" + layerName + "].html, " + floor.floor_name + ");");
+                        krpano.call("set(layer[" + layerName + "].align, topleft);");
+                        krpano.call("set(layer[" + layerName + "].width, 280);");
+                        krpano.call("set(layer[" + layerName + "].height, 40);");
+                        krpano.call("set(layer[" + layerName + "].y, " + yPos + ");");
+                        krpano.call("set(layer[" + layerName + "].x, 8);");
+                        // krpano.call("set(layer[" + layerName + "].css, font-family:Arial; color:black; font-size:18px; text-align:left; padding:9px 9px 9px 15px; box-shadow: 10px 0px 2px rgba(255, 255, 255, 0.7););");
+                        krpano.call("set(layer[" + layerName + "].css, font-family:Arial; color:black; font-size:18px; text-align:left; padding:9px 9px 9px 15px;);");
+                        krpano.call("set(layer[" + layerName + "].bgcolor, 0xFFFFFF);");
+                        krpano.call("set(layer[" + layerName + "].bgalpha, 1);");
+                        krpano.call("set(layer[" + layerName + "].bgroundedge, 36);");
+                        krpano.call(`set(layer[${layerName}].onhover, set(bgcolor,0xDFFF60))`);
+                        krpano.call(`set(layer[${layerName}].onout, set(bgcolor,0xFFFFFF))`);
+                        krpano.call(`set(layer[${layerName}].onclick, select_floor('${layerName}', '${floor.floor_name}', '${floor.capture}'))`);
                     }
+                }
             });
         })
         .catch(error => console.error("Error fetching floors:", error));
@@ -1239,37 +1239,37 @@ async function fetchCaptureTimeFromDateBar() {
             let i = 0;
             data.data.forEach((item) => {
                 if (item.capture && item.capture.trim() !== "" && item.capture !== null) {
-                // Convert UTC time to local timezone
-                let captureDate = new Date(item.created_at);
-                let localTime = captureDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+                    // Convert UTC time to local timezone
+                    let captureDate = new Date(item.created_at);
+                    let localTime = captureDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
 
-                let layerName = "time_option_" + i;
-                let yPos = (i * 40) + 8; // Adjust vertical positioning dynamically
-                let boxHeight = (40 * (i + 1)) + 16; // Adjust vertical positioning dynamically
-                krpano.call("set(layer[time_dropdown_list].height, " + boxHeight + ");");
+                    let layerName = "time_option_" + i;
+                    let yPos = (i * 40) + 8; // Adjust vertical positioning dynamically
+                    let boxHeight = (40 * (i + 1)) + 16; // Adjust vertical positioning dynamically
+                    krpano.call("set(layer[time_dropdown_list].height, " + boxHeight + ");");
 
-                // Add new dropdown items dynamically inside existing dropdown
-                krpano.call("addlayer(" + layerName + ");");
-                krpano.call(`set(layer[${layerName}].keep, true);`);
-                krpano.call("set(layer[" + layerName + "].parent, time_dropdown_list);");
-                krpano.call("set(layer[" + layerName + "].type, text);");
-                krpano.call(`set(layer[${layerName}].html, "${localTime}");`);
-                krpano.call("set(layer[" + layerName + "].align, topleft);");
-                krpano.call("set(layer[" + layerName + "].width, 140);");
-                krpano.call("set(layer[" + layerName + "].height, 40);");
-                krpano.call("set(layer[" + layerName + "].y, " + yPos + ");");
-                krpano.call("set(layer[" + layerName + "].x, 8);");
-                krpano.call("set(layer[" + layerName + "].css, font-family:Arial; color:#FFFFFF; font-size:18px; text-align:left; padding:9px 9px 9px 15px; color:black;");
-                krpano.call("set(layer[" + layerName + "].bgcolor, 0xFFFFFF);");
-                krpano.call("set(layer[" + layerName + "].bgalpha, 1);");
-                krpano.call("set(layer[" + layerName + "].bgroundedge, 36);");
-                krpano.call(`set(layer[${layerName}].onhover, set(bgcolor,0xDFFF60))`);
-                krpano.call(`set(layer[${layerName}].onout, set(bgcolor,0xFFFFFF))`);
+                    // Add new dropdown items dynamically inside existing dropdown
+                    krpano.call("addlayer(" + layerName + ");");
+                    krpano.call(`set(layer[${layerName}].keep, true);`);
+                    krpano.call("set(layer[" + layerName + "].parent, time_dropdown_list);");
+                    krpano.call("set(layer[" + layerName + "].type, text);");
+                    krpano.call(`set(layer[${layerName}].html, "${localTime}");`);
+                    krpano.call("set(layer[" + layerName + "].align, topleft);");
+                    krpano.call("set(layer[" + layerName + "].width, 140);");
+                    krpano.call("set(layer[" + layerName + "].height, 40);");
+                    krpano.call("set(layer[" + layerName + "].y, " + yPos + ");");
+                    krpano.call("set(layer[" + layerName + "].x, 8);");
+                    krpano.call("set(layer[" + layerName + "].css, font-family:Arial; color:#FFFFFF; font-size:18px; text-align:left; padding:9px 9px 9px 15px; color:black;");
+                    krpano.call("set(layer[" + layerName + "].bgcolor, 0xFFFFFF);");
+                    krpano.call("set(layer[" + layerName + "].bgalpha, 1);");
+                    krpano.call("set(layer[" + layerName + "].bgroundedge, 36);");
+                    krpano.call(`set(layer[${layerName}].onhover, set(bgcolor,0xDFFF60))`);
+                    krpano.call(`set(layer[${layerName}].onout, set(bgcolor,0xFFFFFF))`);
 
-                // Onclick event to load the selected capture
-                krpano.call(`set(layer[${layerName}].onclick, load_capture('${item.capture}'))`);
+                    // Onclick event to load the selected capture
+                    krpano.call(`set(layer[${layerName}].onclick, load_capture('${item.capture}'))`);
 
-                i++;
+                    i++;
                 }
             });
         }
@@ -1382,9 +1382,9 @@ function setFloorPlanContainerSizeOnLoad() {
         let updatedImage = krpano.get("layer[map]");
         const imageHeight = updatedImage.loaderheight
         const imageWidth = updatedImage.loaderwidth
-        if (imageHeight > imageWidth){
+        if (imageHeight > imageWidth) {
             krpano.set("layer[floorplan_container].scale", 0.55);
-        }else{
+        } else {
             krpano.set("layer[floorplan_container].scale", 0.48);
         }
 
@@ -1394,7 +1394,7 @@ function setFloorPlanContainerSizeOnLoad() {
             window.innerHeight <= 500
         );
 
-        if(isMobileLandscape){
+        if (isMobileLandscape) {
             console.log("----------Device is in mobile landscape mode----");
 
             krpano.set("layer[floor_bar].y", 0);
@@ -1559,10 +1559,10 @@ function setFloorPlanContainerSizeOnLoad() {
             krpano.set("layer[trajectory_toggle_switch].align", 'bottomright');
         }
 
-        if(imageHeight>imageWidth){
+        if (imageHeight > imageWidth) {
             krpano.set("layer[floorplan_container].width", 480);
             krpano.set("layer[floorplan_container].height", 621);
-        }else {
+        } else {
             krpano.set("layer[floorplan_container].width", 542);
             krpano.set("layer[floorplan_container].height", 383);
         }
@@ -1580,14 +1580,14 @@ function setFloorPlanContainerSizeOnLoad() {
 function hideLoader() {
     const loader = document.getElementById("loader");
     if (loader) {
-      loader.classList.add("fade-out");
-      setTimeout(() => {
-        loader.style.display = "none";
-      }, 500);
+        loader.classList.add("fade-out");
+        setTimeout(() => {
+            loader.style.display = "none";
+        }, 500);
     }
-  }
+}
 
-window.addEventListener("orientationchange", function() {
+window.addEventListener("orientationchange", function () {
     // Optional delay to ensure orientation is fully applied
     setTimeout(() => {
         window.location.reload();  // Refresh to apply new layout
@@ -1610,7 +1610,7 @@ function expandFloorplan() {
         window.innerHeight <= 500
     );
     krpano.set("layer[floorplan_container].y", 23);
-    if(isMobileLandscape){
+    if (isMobileLandscape) {
         krpano.set("layer[floorplan_container].x", 0);
         krpano.set("layer[floorplan_container].y", 20);
         krpano.set("layer[bottom_bar].visible", 'false');
@@ -1625,15 +1625,15 @@ function expandFloorplan() {
         krpano.set("layer[collapse_btn].css", "font-family:Arial; color:#FFFFFF; font-size:50px; font-weight:bold;");
         krpano.call('tween(layer[floorplan_container].scale, 0.6, 0.4);');
 
-    }else{
-        if (imageHeight > imageWidth){
+    } else {
+        if (imageHeight > imageWidth) {
             if (window.innerHeight < 690) {
                 krpano.set("layer[floorplan_container].scale", 0.7);
             }
             else {
                 krpano.set("layer[floorplan_container].scale", 1);
             }
-        }else{
+        } else {
             if (window.innerHeight < 690) {
                 krpano.set("layer[floorplan_container].scale", 1.2);
             }
@@ -1641,7 +1641,7 @@ function expandFloorplan() {
                 krpano.set("layer[floorplan_container].scale", 1.8);
             }
         }
-        
+
     }
 
     krpano.set("control.usercontrol", "off");
@@ -1651,7 +1651,7 @@ function expandFloorplan() {
     krpano.set("control.mousetype", "none");
     krpano.set("control.touchtype", "none");
     krpano.set("layer[floorplan_container].align", "center");
-    
+
 
 
 
@@ -1664,14 +1664,16 @@ function expandFloorplan() {
     krpano.set("layer[collapse_btn].visible", true);
 
     // Attach event listener to the container
-    const floorplanContainerElement = document.getElementById("krpanoSWFObject");
-    if (floorplanContainerElement) {
-        floorplanContainerElement.addEventListener("wheel", handelZoomFloorplanImagePrecise);
-        // floorplanContainerElement.addEventListener("touchstart", handleTouchStart, { passive: false });
-        floorplanContainerElement.addEventListener("touchmove", handleTouchMove, { passive: false });
-    };
+    // const floorplanContainerElement = document.getElementById("krpanoSWFObject");
+    // if (floorplanContainerElement) {
+    //     floorplanContainerElement.addEventListener("wheel", handelZoomFloorplanImagePrecise);
+    //     // floorplanContainerElement.addEventListener("touchstart", handleTouchStart, { passive: false });
+    //     floorplanContainerElement.addEventListener("touchmove", handleTouchMove, { passive: false });
+    // };
 
-    calculateFitScale()
+    // calculateFitScale()
+    // Initialize interactions
+    initFloorplanInteractions();
 }
 
 
@@ -1688,7 +1690,7 @@ function collapseFloorplan() {
         window.innerHeight <= 500
     );
 
-    if(isMobileLandscape){
+    if (isMobileLandscape) {
         krpano.set("layer[floorplan_container].x", 10);
         krpano.set("layer[floorplan_container].y", 50);
         krpano.set("layer[bottom_bar].visible", 'true');
@@ -1699,10 +1701,10 @@ function collapseFloorplan() {
         krpano.set("layer[floorplan_container].y", 80);
         krpano.set("layer[floorplan_container].x", 20);
         krpano.set("layer[floorplan_container].scale", 0.2);
-    }else{
-        if (imageHeight > imageWidth){
+    } else {
+        if (imageHeight > imageWidth) {
             krpano.set("layer[floorplan_container].scale", 0.55);
-        }else{
+        } else {
             krpano.set("layer[floorplan_container].scale", 0.48);
         }
     }
@@ -1713,15 +1715,15 @@ function collapseFloorplan() {
         krpano.set("control.touch", "on");
         krpano.set("control.keyboard", "on");
         krpano.set("control.mousetype", "drag");
-        
-        if(imageHeight>imageWidth){
+
+        if (imageHeight > imageWidth) {
             krpano.set("layer[floorplan_container].width", 480);
             krpano.set("layer[floorplan_container].height", 621);
-        }else {
+        } else {
             krpano.set("layer[floorplan_container].width", 542);
             krpano.set("layer[floorplan_container].height", 383);
         }
-    
+
 
 
         krpano.set("layer[floorplan_container].y", 60);
@@ -1734,11 +1736,18 @@ function collapseFloorplan() {
         krpano.set("layer[expand_btn].visible", true);
         krpano.set("layer[collapse_btn].visible", false);
 
-        const floorplanContainerElement = document.getElementById("krpanoSWFObject");
-        if (floorplanContainerElement) {
-            floorplanContainerElement.removeEventListener("wheel", handelZoomFloorplanImagePrecise);
-            floorplanContainerElement.addEventListener("touchend", handleTouchEnd, { passive: false });
-        };
+        const container = document.getElementById("krpanoSWFObject");
+        if (container) {
+            // Remove all event listeners
+            container.removeEventListener('mousedown', handleMouseDown);
+            container.removeEventListener('wheel', handleWheel);
+            container.removeEventListener('touchstart', handleTouchStart);
+            container.removeEventListener('touchmove', handleTouchMove);
+            container.removeEventListener('touchend', handleTouchEnd);
+
+            // Reset cursor
+            container.style.cursor = '';
+        }
     }
 }
 
@@ -1812,44 +1821,35 @@ function constrainImagePosition() {
     const krpano = document.getElementById("krpanoSWFObject");
     const floorplanContainer = krpano.get("layer[floorplan_container]");
     const mapLayer = krpano.get("layer[map]");
-    
+
     if (!floorplanContainer || !mapLayer) return;
-    
+
     const scale = parseFloat(mapLayer.scale) || 1;
     const containerWidth = parseFloat(floorplanContainer.width);
     const containerHeight = parseFloat(floorplanContainer.height);
-    
+
     // Get original image dimensions
     const originalImageWidth = parseFloat(mapLayer.loaderwidth) || parseFloat(mapLayer.width);
     const originalImageHeight = parseFloat(mapLayer.loaderheight) || parseFloat(mapLayer.height);
-    
+
     // Calculate scaled image dimensions
     const scaledImageWidth = originalImageWidth * scale;
     const scaledImageHeight = originalImageHeight * scale;
-    
+
     // Get current position
     let x = parseFloat(mapLayer.x) || 0;
     let y = parseFloat(mapLayer.y) || 0;
-    
-    // Calculate bounds - image should not go beyond container edges
-    const minX = Math.min(0, containerWidth - scaledImageWidth);
-    const maxX = Math.max(0, containerWidth - scaledImageWidth);
-    const minY = Math.min(0, containerHeight - scaledImageHeight);
-    const maxY = Math.max(0, containerHeight - scaledImageHeight);
-    
+
+    // Calculate maximum allowed movement
+    const maxX = Math.max(0, (scaledImageWidth - containerWidth) / 2);
+    const minX = -maxX;
+    const maxY = Math.max(0, (scaledImageHeight - containerHeight) / 2);
+    const minY = -maxY;
+
     // Constrain position
-    if (scaledImageWidth > containerWidth) {
-        x = Math.max(minX, Math.min(maxX, x));
-    } else {
-        x = (containerWidth - scaledImageWidth) / 2; // Center if image is smaller than container
-    }
-    
-    if (scaledImageHeight > containerHeight) {
-        y = Math.max(minY, Math.min(maxY, y));
-    } else {
-        y = (containerHeight - scaledImageHeight) / 2; // Center if image is smaller than container
-    }
-    
+    x = Math.max(minX, Math.min(maxX, x));
+    y = Math.max(minY, Math.min(maxY, y));
+
     // Apply constrained position
     krpano.set("layer[map].x", x);
     krpano.set("layer[map].y", y);
@@ -1897,6 +1897,185 @@ function handelDragFloorplanImage(event) {
         document.addEventListener("mouseup", onMouseUp);
     }
 }
+
+// Global state for tracking interactions
+const floorplanInteraction = {
+    isDragging: false,
+    isZooming: false, // Add this new flag
+    startX: 0,
+    startY: 0,
+    startLayerX: 0,
+    startLayerY: 0,
+    currentScale: 1,
+    minScale: 1,
+    maxScale: 4,
+    touchDistance: 0,
+    touchCenter: { x: 0, y: 0 },
+    initialTouchScale: 1
+};
+
+
+// Initialize floorplan interactions
+function initFloorplanInteractions() {
+    const krpano = document.getElementById("krpanoSWFObject");
+    const container = document.getElementById("krpanoSWFObject");
+
+    if (!container) return;
+
+    // Reset state
+    resetFloorplanInteractionState();
+
+    // Set initial scale
+    floorplanInteraction.currentScale = parseFloat(krpano.get("layer[map].scale")) || 1;
+
+    // Set initial cursor style
+    container.style.cursor = 'grab';
+
+    // Remove any existing listeners first to avoid duplicates
+    container.removeEventListener('mousedown', handleMouseDown);
+    container.removeEventListener('wheel', handleWheel);
+    container.removeEventListener('touchstart', handleTouchStart);
+    container.removeEventListener('touchmove', handleTouchMove);
+    container.removeEventListener('touchend', handleTouchEnd);
+
+    // Add event listeners with proper options
+    container.addEventListener('mousedown', handleMouseDown);
+    container.addEventListener('wheel', handleWheel, { passive: false }); // Important for preventDefault to work
+    container.addEventListener('touchstart', handleTouchStart, { passive: false });
+    container.addEventListener('touchmove', handleTouchMove, { passive: false });
+    container.addEventListener('touchend', handleTouchEnd);
+}
+
+// Reset interaction state
+function resetFloorplanInteractionState() {
+    floorplanInteraction.isDragging = false;
+    floorplanInteraction.startX = 0;
+    floorplanInteraction.startY = 0;
+    floorplanInteraction.startLayerX = 0;
+    floorplanInteraction.startLayerY = 0;
+    floorplanInteraction.touchDistance = 0;
+    floorplanInteraction.touchCenter = { x: 0, y: 0 };
+}
+
+// Mouse down handler
+function handleMouseDown(e) {
+    e.preventDefault();
+    const krpano = document.getElementById("krpanoSWFObject");
+    const container = document.getElementById("krpanoSWFObject");
+    const mapLayer = krpano.get("layer[map]");
+
+    if (!mapLayer || mapLayer.scale <= 1.0) return;
+
+    // Set grabbing cursor
+    container.style.cursor = 'grabbing';
+
+    floorplanInteraction.isDragging = true;
+    floorplanInteraction.startX = e.clientX;
+    floorplanInteraction.startY = e.clientY;
+    floorplanInteraction.startLayerX = parseFloat(mapLayer.x) || 0;
+    floorplanInteraction.startLayerY = parseFloat(mapLayer.y) || 0;
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+}
+
+
+function handleMouseMove(e) {
+    if (!floorplanInteraction.isDragging) return;
+    e.preventDefault();
+
+    const krpano = document.getElementById("krpanoSWFObject");
+    const mapLayer = krpano.get("layer[map]");
+    const floorplanContainer = krpano.get("layer[floorplan_container]");
+
+    const dx = e.clientX - floorplanInteraction.startX;
+    const dy = e.clientY - floorplanInteraction.startY;
+
+    let newX = floorplanInteraction.startLayerX + dx;
+    let newY = floorplanInteraction.startLayerY + dy;
+
+    // Apply constraints
+    const constrained = constrainPosition(
+        newX,
+        newY,
+        mapLayer,
+        floorplanContainer
+    );
+
+    krpano.set("layer[map].x", constrained.x);
+    krpano.set("layer[map].y", constrained.y);
+}
+
+// Mouse up handler
+function handleMouseUp() {
+    const container = document.getElementById("krpanoSWFObject");
+    container.style.cursor = 'grab';
+
+    floorplanInteraction.isDragging = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+}
+
+
+// Wheel (zoom) handler
+function handleWheel(e) {
+    e.preventDefault();
+    const krpano = document.getElementById("krpanoSWFObject");
+    const mapLayer = krpano.get("layer[map]");
+    const floorplanContainer = krpano.get("layer[floorplan_container]");
+
+    if (!mapLayer || !floorplanContainer) return;
+
+    // Get current values
+    const currentScale = parseFloat(mapLayer.scale) || 1;
+    const currentX = parseFloat(mapLayer.x) || 0;
+    const currentY = parseFloat(mapLayer.y) || 0;
+
+    // Calculate zoom direction and amount (smaller steps for smoother zoom)
+    const zoomFactor = e.deltaY < 0 ? 1.05 : 0.95;
+    let newScale = currentScale * zoomFactor;
+
+    // Constrain scale between 1 and 4
+    newScale = Math.max(1, Math.min(4, newScale));
+    if (newScale === currentScale) return;
+
+    // Get the container element and its position
+    const container = document.getElementById("krpanoSWFObject");
+    const containerRect = container.getBoundingClientRect();
+
+    // Get the floorplan container's position and dimensions
+    const containerX = parseFloat(floorplanContainer.x) || 0;
+    const containerY = parseFloat(floorplanContainer.y) || 0;
+    const containerWidth = parseFloat(floorplanContainer.width);
+    const containerHeight = parseFloat(floorplanContainer.height);
+
+    // Calculate mouse position relative to the floorplan container
+    let mouseX = e.clientX - containerRect.left - containerX;
+    let mouseY = e.clientY - containerRect.top - containerY;
+
+    // Handle center alignment if needed
+    if (floorplanContainer.align === "center") {
+        mouseX = e.clientX - (containerRect.width / 2) + (containerWidth / 2);
+        mouseY = e.clientY - (containerRect.height / 2) + (containerHeight / 2);
+    }
+
+    // Calculate the point in the image that should stay under the mouse
+    const imagePointX = (mouseX - currentX) / currentScale;
+    const imagePointY = (mouseY - currentY) / currentScale;
+
+    // Calculate new position to keep the image point under mouse
+    const newX = mouseX - imagePointX * newScale;
+    const newY = mouseY - imagePointY * newScale;
+
+    // Apply changes
+    krpano.set("layer[map].scale", newScale);
+    krpano.set("layer[map].x", newX);
+    krpano.set("layer[map].y", newY);
+
+    // Constrain to bounds
+    constrainImagePosition();
+}
+
 
 function calculateFitScale() {
     const krpano = document.getElementById("krpanoSWFObject");
@@ -1951,27 +2130,36 @@ function animateScale(map, scale, duration) {
 //     }
 // }
 
-function handleTouchStart(event) {
-    const krpano = document.getElementById("krpanoSWFObject");
-    const mapLayer = krpano.get("layer[map]");
+// Touch start handler
+function handleTouchStart(e) {
+    const container = document.getElementById("krpanoSWFObject");
     
-    if (!mapLayer) return;
+    if (e.touches.length === 1 && !floorplanInteraction.isZooming) {
+        // Only start drag if not currently zooming
+        const krpano = document.getElementById("krpanoSWFObject");
+        const mapLayer = krpano.get("layer[map]");
 
-    if (event.touches.length === 1) {
-        // Start drag
-        touchStartX = event.touches[0].clientX;
-        touchStartY = event.touches[0].clientY;
-        layerStartX = parseFloat(mapLayer.x) || 0;
-        layerStartY = parseFloat(mapLayer.y) || 0;
-    } else if (event.touches.length === 2) {
-        // Start pinch zoom
-        lastTouchDistance = getDistance(event.touches);
-        lastTouchCenter = getCenter(event.touches);
-        initialTouchScale = parseFloat(mapLayer.scale) || 1;
-        initialTouchX = parseFloat(mapLayer.x) || 0;
-        initialTouchY = parseFloat(mapLayer.y) || 0;
+        container.style.cursor = 'grabbing';
+        floorplanInteraction.isDragging = true;
+        floorplanInteraction.startX = e.touches[0].clientX;
+        floorplanInteraction.startY = e.touches[0].clientY;
+        floorplanInteraction.startLayerX = parseFloat(mapLayer.x) || 0;
+        floorplanInteraction.startLayerY = parseFloat(mapLayer.y) || 0;
+    }
+    else if (e.touches.length === 2) {
+        // Two touches - prepare for pinch zoom
+        container.style.cursor = 'grabbing';
+        floorplanInteraction.isZooming = true; // Set zooming flag
+        floorplanInteraction.isDragging = false; // Cancel any drag
+        floorplanInteraction.touchDistance = getDistance(e.touches);
+        floorplanInteraction.touchCenter = getCenter(e.touches);
+        floorplanInteraction.initialTouchScale = parseFloat(
+            document.getElementById("krpanoSWFObject")
+                .get("layer[map].scale")
+        ) || 1;
     }
 }
+
 
 
 // UNDOOO ----------
@@ -2023,87 +2211,93 @@ function handleTouchStart(event) {
 //     }
 // }
 
-function handleTouchMove(event) {
-    event.preventDefault();
+
+// Modify the handleTouchMove function
+function handleTouchMove(e) {
+    e.preventDefault();
     const krpano = document.getElementById("krpanoSWFObject");
-    const floorplanContainer = krpano.get("layer[floorplan_container]");
+    const container = document.getElementById("krpanoSWFObject");
     const mapLayer = krpano.get("layer[map]");
-    
-    if (!floorplanContainer || !mapLayer) return;
+    const floorplanContainer = krpano.get("layer[floorplan_container]");
 
-    if (event.touches.length === 1) {
-        // Single finger drag
-        const dx = event.touches[0].clientX - touchStartX;
-        const dy = event.touches[0].clientY - touchStartY;
+    if (!mapLayer || !floorplanContainer) return;
 
-        let newX = layerStartX + dx;
-        let newY = layerStartY + dy;
+    if (e.touches.length === 1 && floorplanInteraction.isDragging && !floorplanInteraction.isZooming) {
+        // Only process drag if not zooming
+        const dx = e.touches[0].clientX - floorplanInteraction.startX;
+        const dy = e.touches[0].clientY - floorplanInteraction.startY;
+
+        let newX = floorplanInteraction.startLayerX + dx;
+        let newY = floorplanInteraction.startLayerY + dy;
 
         // Apply constraints
-        const constrainedPosition = constrainPosition(newX, newY, mapLayer, floorplanContainer);
-        
-        krpano.set("layer[map].x", constrainedPosition.x);
-        krpano.set("layer[map].y", constrainedPosition.y);
+        const constrained = constrainPosition(
+            newX,
+            newY,
+            mapLayer,
+            floorplanContainer
+        );
 
-    } else if (event.touches.length === 2) {
-        // Two finger pinch zoom
-        const newDistance = getDistance(event.touches);
-        const newCenter = getCenter(event.touches);
+        krpano.set("layer[map].x", constrained.x);
+        krpano.set("layer[map].y", constrained.y);
+    }
+    else if (e.touches.length === 2 || floorplanInteraction.isZooming) {
+        // Process zoom if either two fingers or zooming flag is set
+        floorplanInteraction.isDragging = false; // Cancel any drag
         
-        if (lastTouchDistance && lastTouchCenter) {
-            // Calculate scale change
-            const scaleFactor = newDistance / lastTouchDistance;
-            let newScale = (parseFloat(mapLayer.scale) || 1) * scaleFactor;
-            
+        const newDistance = getDistance(e.touches);
+        const newCenter = getCenter(e.touches);
+
+        if (floorplanInteraction.touchDistance > 0) {
+            const scaleFactor = newDistance / floorplanInteraction.touchDistance;
+            let newScale = floorplanInteraction.initialTouchScale * scaleFactor;
+
             // Constrain scale
-            const maxScale = 4;
-            const minScale = 1;
-            newScale = Math.max(minScale, Math.min(maxScale, newScale));
-            
-            // Calculate zoom center relative to container
-            const rect = document.getElementById("krpanoSWFObject").getBoundingClientRect();
+            newScale = Math.max(floorplanInteraction.minScale,
+                Math.min(floorplanInteraction.maxScale, newScale));
+
+            // Get container position
+            const rect = container.getBoundingClientRect();
             const containerX = parseFloat(floorplanContainer.x) || 0;
             const containerY = parseFloat(floorplanContainer.y) || 0;
-            const containerWidth = parseFloat(floorplanContainer.width);
-            const containerHeight = parseFloat(floorplanContainer.height);
-            
-            // Adjust center position relative to container
+
+            // Calculate center relative to container
             let relativeCenterX = newCenter.x - rect.left - containerX;
             let relativeCenterY = newCenter.y - rect.top - containerY;
-            
+
             // Handle center alignment
             if (floorplanContainer.align === "center") {
-                relativeCenterX = newCenter.x - rect.left - (rect.width - containerWidth) / 2;
-                relativeCenterY = newCenter.y - rect.top - (rect.height - containerHeight) / 2;
+                relativeCenterX = newCenter.x - rect.left - (rect.width - floorplanContainer.width) / 2;
+                relativeCenterY = newCenter.y - rect.top - (rect.height - floorplanContainer.height) / 2;
             }
-            
+
             // Calculate current position
-            const currentScale = parseFloat(mapLayer.scale) || 1;
             const currentX = parseFloat(mapLayer.x) || 0;
             const currentY = parseFloat(mapLayer.y) || 0;
-            
+
             // Calculate the point in the image that should stay under the center
-            const imagePointX = (relativeCenterX - currentX) / currentScale;
-            const imagePointY = (relativeCenterY - currentY) / currentScale;
-            
+            const imagePointX = (relativeCenterX - currentX) / floorplanInteraction.initialTouchScale;
+            const imagePointY = (relativeCenterY - currentY) / floorplanInteraction.initialTouchScale;
+
             // Calculate new position to keep the image point under center
             const newX = relativeCenterX - imagePointX * newScale;
             const newY = relativeCenterY - imagePointY * newScale;
-            
-            // Apply new scale and position
+
+            // Apply changes
             krpano.set("layer[map].scale", newScale);
             krpano.set("layer[map].x", newX);
             krpano.set("layer[map].y", newY);
-            
-            // Constrain to bounds
-            constrainImagePosition();
+
+            // Update state
+            floorplanInteraction.initialTouchScale = newScale;
         }
-        
-        lastTouchDistance = newDistance;
-        lastTouchCenter = newCenter;
+
+        floorplanInteraction.touchDistance = newDistance;
+        floorplanInteraction.touchCenter = newCenter;
     }
 }
 
+// UnDO ____-------
 
 
 // function handleTouchEnd(event) {
@@ -2113,19 +2307,24 @@ function handleTouchMove(event) {
 //     }
 // }
 
-function handleTouchEnd(event) {
-    if (event.touches.length < 2) {
-        lastTouchDistance = null;
-        lastTouchCenter = null;
+
+// Touch end handler
+// Modify the handleTouchEnd function
+function handleTouchEnd(e) {
+    const container = document.getElementById("krpanoSWFObject");
+    container.style.cursor = 'grab';
+
+    // Reset zooming flag when touches go below 2
+    if (e.touches.length < 2) {
+        floorplanInteraction.isZooming = false;
+        floorplanInteraction.touchDistance = 0;
     }
-    if (event.touches.length === 0) {
-        touchStartX = null;
-        touchStartY = null;
-        layerStartX = null;
-        layerStartY = null;
+    
+    // Reset dragging if no touches left
+    if (e.touches.length === 0) {
+        floorplanInteraction.isDragging = false;
     }
 }
-
 
 
 // Helper function to get distance between two touches
@@ -2148,41 +2347,29 @@ function constrainPosition(x, y, mapLayer, floorplanContainer) {
     const scale = parseFloat(mapLayer.scale) || 1;
     const containerWidth = parseFloat(floorplanContainer.width);
     const containerHeight = parseFloat(floorplanContainer.height);
-    
+
     // Get original image dimensions
     const originalImageWidth = parseFloat(mapLayer.loaderwidth) || parseFloat(mapLayer.width);
     const originalImageHeight = parseFloat(mapLayer.loaderheight) || parseFloat(mapLayer.height);
-    
+
     // Calculate scaled image dimensions
     const scaledImageWidth = originalImageWidth * scale;
     const scaledImageHeight = originalImageHeight * scale;
-    
-    // Calculate bounds
-    const minX = Math.min(0, containerWidth - scaledImageWidth);
-    const maxX = Math.max(0, containerWidth - scaledImageWidth);
-    const minY = Math.min(0, containerHeight - scaledImageHeight);
-    const maxY = Math.max(0, containerHeight - scaledImageHeight);
-    
+
+    // Calculate maximum allowed movement
+    const maxX = Math.max(0, (scaledImageWidth - containerWidth) / 2);
+    const minX = -maxX;
+    const maxY = Math.max(0, (scaledImageHeight - containerHeight) / 2);
+    const minY = -maxY;
+
     // Constrain position
-    let constrainedX = x;
-    let constrainedY = y;
-    
-    if (scaledImageWidth > containerWidth) {
-        constrainedX = Math.max(minX, Math.min(maxX, x));
-    } else {
-        constrainedX = (containerWidth - scaledImageWidth) / 2;
-    }
-    
-    if (scaledImageHeight > containerHeight) {
-        constrainedY = Math.max(minY, Math.min(maxY, y));
-    } else {
-        constrainedY = (containerHeight - scaledImageHeight) / 2;
-    }
-    
+    let constrainedX = Math.max(minX, Math.min(maxX, x));
+    let constrainedY = Math.max(minY, Math.min(maxY, y));
+
     return { x: constrainedX, y: constrainedY };
 }
 
-function closeCalendar(){
+function closeCalendar() {
     let krpano = document.getElementById("krpanoSWFObject");
     krpano.call(`set(layer[calendar_popup].visible, "false")`);
 }
